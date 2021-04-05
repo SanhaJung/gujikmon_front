@@ -1,11 +1,12 @@
 import './App.css';
-import React from 'react'
+import React from 'react';
+import MapContainer from "./map/MapContainer";
+
 
 function App() {
   return (
-    <div >
-      
-    </div>
+    <MapContainer />
+
   );
 }
 
