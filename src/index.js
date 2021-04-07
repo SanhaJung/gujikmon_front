@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'semantic-ui-css/semantic.min.css';
+import MapContainer from "./map/MapContainer";
+
 
 ReactDOM.render(
   <React.StrictMode>
+  <MapContainer />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
