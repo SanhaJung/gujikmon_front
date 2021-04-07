@@ -41,6 +41,7 @@ class Company{
        wantedMobileInfoUrl:"워크넷 모바일 채용정보 URL(string)",
     };
   }
+ 
 
 export class CompanyStore{
 

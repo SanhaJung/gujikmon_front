@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import {Filter} from './SelectionView';
 
 const useStyles = makeStyles((theme) => ({
     heroContent: {
@@ -21,10 +22,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function KakaoMap()  {
     const classes = useStyles();
-
+    
     return (
        <div className={classes.heroContent}>
        <Container maxWidth="sm">
+         <Filter></Filter>
          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
            Map Area
          </Typography>
@@ -39,7 +41,7 @@ export default function KakaoMap()  {
                </Button>
              </Grid>
              <Grid item>
-               <Button variant="outlined" color="primary"style={{fontFamily:'GongGothicLight'}}>
+               <Button variant="outlined" color="primary" style={{fontFamily:'GongGothicLight'}}>
                  Secondary action
                </Button>
              </Grid>

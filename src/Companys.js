@@ -12,7 +12,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2","인증제도3","인증제도4","인증제도5",],
+    sgBrandNm:["강소기업", "청년친화","경영혁신","기술혁신","가족친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -33,7 +33,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2","인증제도3","인증제도4","인증제도5","인증제도6","인증제도7","인증제도8","인증제도9","인증제도10",],
+    sgBrandNm:["경영혁신","기술혁신"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -53,7 +53,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["1","2","2","2","2","2","2","2","2"],
+    sgBrandNm:["가족친화", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -72,7 +72,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["청년친화","경영혁신","기술혁신","가족친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -91,7 +91,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -110,7 +110,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -129,7 +129,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -148,7 +148,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -167,7 +167,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -186,7 +186,7 @@ const Companys = [
 	coGdpnt:"기업 장점내용(string)",
     coHomePage:"회사 홈페이지(string)",
     alwaysWorkerCnt:"상시 근로자 수(string)",
-    sgBrandNm:["인증제도1","인증제도2"],
+    sgBrandNm:["강소기업", "청년친화"],
     info:{  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
