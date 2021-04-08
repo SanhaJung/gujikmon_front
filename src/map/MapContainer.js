@@ -42,7 +42,7 @@ const MapContainer = () => {
         imageOptionGPS
       );
     
-             //GPS 내 위치 마커 생성
+      //GPS 내 위치 마커 생성
       function displayMarkerMyHome(locPosition) {
         var marker = new kakao.maps.Marker({
           map: map,
@@ -62,10 +62,8 @@ const MapContainer = () => {
         minLevel: 4,
         styles:[
           {
-          color : 'white',
-          width : '50px', 
-          height : '50px',
-          textAlign: 'center',
+          color : 'white', width : '50px', 
+          height : '50px', textAlign: 'center',
           lineHeight: '50px',
           background : 'url("https://gsmb.mss.go.kr/images/icon/ico-map-cluster.png") ',
         }
@@ -90,6 +88,10 @@ const MapContainer = () => {
           yAnchor: 3,
         });
 
+        // const coNm = new kakao.maps.CustomOverlay({
+
+        // })
+
         //지도 이벤트
         kakao.maps.event.addListener(map, "zoom_changed", function () {
           var mapLevel = map.getLevel();
@@ -97,12 +99,10 @@ const MapContainer = () => {
             customOverlay.setMap(null);
           } else {
             customOverlay.setMap(map, marker);
-
           }
         });
 
         //마커 이벤트
-
         customOverlay.setMap(map, marker);
         markers.push(marker);
         clusterer.addMarkers(markers);
