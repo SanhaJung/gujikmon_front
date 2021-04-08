@@ -8,6 +8,8 @@ import {CompanyList} from './CardList';
 import PrimarySearchAppBar from './AppbarView';
 import KakaoMap from './MapView';
 
+import MapContainer from '../map/MapContainer';
+
 
 function Copyright() {
   return (
@@ -39,6 +41,7 @@ export default function Main() {
       <CssBaseline />
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <main>
+        {/* <MapContainer></MapContainer> */}
        <KakaoMap></KakaoMap>
         <CompanyList></CompanyList>
       </main>

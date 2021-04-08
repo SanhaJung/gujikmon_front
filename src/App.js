@@ -1,9 +1,10 @@
 import './App.css';
-import Main from './view/MainView'
+import Main from './view/MainView';
+
 function App() {
   return (
        <Main>
-         
+
        </Main>
   );
 }
