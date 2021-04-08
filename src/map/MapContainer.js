@@ -5,7 +5,6 @@ import '../components/css/MapContainer.css';
 
 import {Filter} from '../view/SelectionView';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 
 
@@ -103,5 +102,4 @@ const MapContainer = () => {
 }
 
 export default MapContainer; 
-//z-index: 10;
 
