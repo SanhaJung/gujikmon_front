@@ -60,6 +60,17 @@ const MapContainer = () => {
         map: map,
         averageCenter: true, 
         minLevel: 4,
+        styles:[
+          {
+          color : 'white',
+          width : '50px', 
+          height : '50px',
+          textAlign: 'center',
+          lineHeight: '50px',
+          background : 'url("https://gsmb.mss.go.kr/images/icon/ico-map-cluster.png") ',
+        }
+
+        ]
       });
 
       //기업 마커 생성
