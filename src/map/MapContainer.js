@@ -79,12 +79,26 @@ const MapContainer = () => {
           yAnchor: 3,
         });
 
+        //지도 이벤트
+        kakao.maps.event.addListener(map, "zoom_changed", function () {
+          var mapLevel = map.getLevel();
+          if (mapLevel >= 5) {
+            customOverlay.setMap(null);
+          } else {
+            customOverlay.setMap(map, marker);
+
+          }
+        });
+
         //마커 이벤트
 
         customOverlay.setMap(map, marker);
         markers.push(marker);
         clusterer.addMarkers(markers);
       });
+
+      
+
 
       
      
@@ -94,8 +108,7 @@ const MapContainer = () => {
       <React.Fragment>
                  
               <div id='map' style={{width: '100%',height: '70vh', zIndex:1}}>
-              
-              <Filter  ></Filter>
+              <Filter></Filter>
               </div>
       </React.Fragment>
     );

@@ -11,7 +11,6 @@ import {CheckBoxList} from './CheckBoxList'
 import Button from '@material-ui/core/Button';
 import { observer } from 'mobx-react';
 
-import './SelectionView.css';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
