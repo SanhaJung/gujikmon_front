@@ -82,7 +82,7 @@ const MapContainer = () => {
         //지도 이벤트
         kakao.maps.event.addListener(map, "zoom_changed", function () {
           var mapLevel = map.getLevel();
-          if (mapLevel >= 5) {
+          if (mapLevel >= 4) {
             customOverlay.setMap(null);
           } else {
             customOverlay.setMap(map, marker);
