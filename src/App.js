@@ -1,11 +1,11 @@
 import './App.css';
-import React from 'react';
-
+import Main from './view/MainView';
 
 function App() {
   return (
-    
-    <div></div>
+       <Main>
+
+       </Main>
   );
 }
 

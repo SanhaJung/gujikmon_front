@@ -3,14 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'semantic-ui-css/semantic.min.css';
-import MapContainer from "./map/MapContainer";
+import {StoreProvider} from './store/Context';
+import {RootStore} from './store/RootStore';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
+// import MapContainer from './map/MapContainer';
+
+const rootStore = new RootStore();
+const theme = createMuiTheme({
+  typography:{
+    fontFamily :[
+      'GongGothicLight',
+      'GongGothicMedium',
+      'GongGothicBold'
+    ].join(','),
+    fontSize: '15',
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>
-  <MapContainer />
+    <StoreProvider value={rootStore} >
+    <ThemeProvider theme={theme}>
     <App />
+    </ThemeProvider>
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
