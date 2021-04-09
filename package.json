@@ -16,8 +16,27 @@
     "mobx-react": "^7.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+<<<<<<< HEAD
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
+=======
+    "react-refresh": "^0.8.3",
+    "resolve": "1.18.1",
+    "resolve-url-loader": "^3.1.2",
+    "sass-loader": "^10.0.5",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
+    "semver": "7.3.2",
+    "style-loader": "1.3.0",
+    "terser-webpack-plugin": "4.2.3",
+    "ts-pnp": "1.2.0",
+    "url-loader": "4.1.1",
+    "web-vitals": "^1.0.1",
+    "webpack": "4.44.2",
+    "webpack-dev-server": "3.11.1",
+    "webpack-manifest-plugin": "2.2.0",
+    "workbox-webpack-plugin": "5.1.4"
+>>>>>>> 16b48d67774e3bddc8d5ad504a3551189c2fd300
   },
   "scripts": {
     "start": "react-scripts start",

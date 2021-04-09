@@ -30,6 +30,7 @@ const CompanyMarker = () => {
         markers.push(marker);
         clusterer.addMarkers(markers);
     });
+
     return (
         <div>
             
