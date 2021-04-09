@@ -50,9 +50,7 @@ export const CompanyList = observer(()=>{
     console.log({currentPage});
   };
   return (
-    <Container className={classes.cardGrid} >
-        <button onClick={()=>{companyStore.createCompany()}}>test</button>
-        
+    <Container className={classes.cardGrid} >        
         <Grid container spacing={2}>
         {currentPost.map((card) => (
             <Grid item key={card._id} xs={12} sm={4}>

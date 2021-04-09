@@ -6,11 +6,13 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Paper from '@material-ui/core/Paper';
-import {LocationCheckBoxList} from './LocationCheckBoxList';
+import {NestedCheckBoxList} from './NestedCheckBoxList';
 import {CheckBoxList} from './CheckBoxList'
 import Button from '@material-ui/core/Button';
 import { observer } from 'mobx-react';
-
+import RefreshIcon from '@material-ui/icons/Refresh';
+import {addressMap} from "../Location";
+import {Industry} from  "../Industry";
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: 900,
+    maxHeight: 700,
     backgroundColor: theme.palette.background.paper,
     border: '#000',
     //boxShadow: theme.shadows[5],
@@ -38,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
   button: {
     margin: theme.spacing(1),
+    background :'#1976D2',
   }, 
 
   root: {
@@ -47,8 +51,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   margin: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+
   },
+  selected:{
+    maxHeight:250,
+    margin:theme.spacing(2,0,2),
+   overflow: 'auto',
+   borderColor :'#1976D2',
+  }
 }));
 
 export const Filter = observer((props)=> {
@@ -59,7 +70,7 @@ export const Filter = observer((props)=> {
   const [locationSelected, SetLocationSelected] = React.useState([]);
   const [certificationSelected, SetCertifictaionSelected] =React.useState([]);
   const [typeSelected, SetTypeSelected] =React.useState([]);
-  
+
   const handlingLocationSelected = (value)=>{
     SetLocationSelected(value);
   }
@@ -71,14 +82,63 @@ export const Filter = observer((props)=> {
     SetTypeSelected(value);
   }
 
+  const handlingLocationUnSelected = (value)=>{
+    let newChecked = [...locationSelected];
+    const currentIndex = locationSelected.findIndex(x=> x.name === value.name && x.code === value.code)  ;
+    newChecked.splice(currentIndex, 1);
+
+    const level1 = addressMap.find(x => x.name===value.name)
+    if(level1 !== undefined){
+      level1.options.map((level2)=>{
+        const level2Index = newChecked.findIndex(x=> x.name === level2.name && x.code === level2.code);
+        if( level2Index !== -1){
+          newChecked.splice(level2Index, 1);
+        }
+      })
+    }
+    SetLocationSelected(newChecked);
+  } 
+
+  const handlingCertificationUnSelected = (value) =>{
+    let newChecked = [...certificationSelected];
+    const currentIndex = certificationSelected.findIndex(x=> x.name === value.name && x.code === value.code)  ;
+    newChecked.splice(currentIndex, 1);
+    SetCertifictaionSelected(newChecked);
+  }
+
+  const handlingTypeUnSelected = (value) =>{
+    let newChecked = [...typeSelected];
+    const currentIndex = typeSelected.findIndex(x=> x.name === value.name && x.code === value.code)  ;
+    newChecked.splice(currentIndex, 1);
+
+    const level1 = Industry.find(x => x.name===value.name)
+    if(level1 !== undefined){
+      level1.options.map((level2)=>{
+        const level2Index = newChecked.findIndex(x=> x.name === level2.name && x.code === level2.code);
+        if( level2Index !== -1){
+          newChecked.splice(level2Index, 1);
+        }
+      })
+    }
+    SetTypeSelected(newChecked);
+  }
+ const handleReset = () =>{
+  SetLocationSelected([]);
+  SetCertifictaionSelected([]);
+  SetTypeSelected([]);
+ }
   const handleOpen = () => {
     setOpen(true);
   };
 
+
   const handleClose = () => {
+    SetLocationSelected([]);
+    SetCertifictaionSelected([]);
+    SetTypeSelected([]);
     setOpen(false);
   };
-  
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
         <Grid container direction="row"
@@ -95,31 +155,70 @@ export const Filter = observer((props)=> {
         <Grid item xs>
         <h2>지역</h2>
         <Paper variant="outlined" square style={{maxHeight: 200, overflow: 'auto'}}>
-        <LocationCheckBoxList selected={locationSelected} handlingSelected={handlingLocationSelected}/>
+        <NestedCheckBoxList selected={locationSelected} handlingSelected={handlingLocationSelected} dataCode={0}/>
         </Paper>
         </Grid>
         <Grid item xs>
         <h2>인증제도</h2>
-        <Paper variant="outlined" square style={{maxHeight: 200, overflow: 'auto'}}>
+        <Paper variant="outlined" square style={{ maxHeight: 200, overflow: 'auto'}}>
         <CheckBoxList selected={certificationSelected} handlingSelected={handlingCertificationSelected} dataCode={1}/>
         </Paper>
         </Grid>
         <Grid item xs>
         <h2>업종</h2>
-        <Paper variant="outlined" square style={{maxHeight: 200, overflow: 'auto'}} >
-        <CheckBoxList selected={typeSelected} handlingSelected={handlingTypeSelected} dataCode={2}/>
+        <Paper variant="outlined" square style={{ maxHeight: 200, overflow: 'auto'}} >
+        <NestedCheckBoxList selected={typeSelected} handlingSelected={handlingTypeSelected} dataCode={2}/>
         </Paper>
         </Grid>
+        </Grid>
 
-        <Grid><div/><div/></Grid>
-        <Grid container justify="space-between" >
-        {locationSelected.indexOf("전체") === -1 &&<Paper elevation={0} square className={classes.margin} >{locationSelected}</Paper>}
+        <Paper variant="outlined" className={classes.selected}>
+        <Grid container >
+          {
+            locationSelected.findIndex((x)=> x.name ==="전체" ) === -1  && locationSelected.map((lo)=>{
+              return (<Paper elevation={0} square className={classes.margin} >
+              {lo.name}    <IconButton  component="span" onClick={()=> handlingLocationUnSelected(lo)}>
+                <CloseIcon />
+            </IconButton>
+              </Paper>
+              )
+          })}
         </Grid>
-        <Grid container justify="space-between" >
-        {certificationSelected.indexOf("전체") === -1 &&<Paper elevation={0} square className={classes.margin} >{certificationSelected}</Paper>}
+        <Grid container>
+        {certificationSelected.indexOf("전체") === -1 &&certificationSelected.map((lo)=>{
+              return (<Paper elevation={0} square className={classes.margin} >
+              {lo}    <IconButton  component="span" onClick={()=>handlingCertificationUnSelected(lo)}>
+                <CloseIcon />
+            </IconButton>
+              </Paper>
+              )
+          })}
         </Grid>
-        <Grid container justify="center" >
-        <Button  size="large" variant="contained" color="primary"  className={classes.margin}>
+        <Grid container >
+          {
+            typeSelected.findIndex((x)=> x.name ==="전체" ) === -1  && typeSelected.map((lo)=>{
+              return (<Paper elevation={0} square className={classes.margin} >
+              {lo.name}    <IconButton  component="span" onClick={()=>handlingTypeUnSelected(lo)}>
+                <CloseIcon />
+            </IconButton>
+              </Paper>
+              )
+          })}
+        </Grid>
+        </Paper>
+        <Grid container  >
+        <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        className={classes.button}
+        startIcon={<RefreshIcon />}
+        onClick={handleReset}
+      >
+        초기화
+      </Button>
+      <div style={{flexGrow:1}}></div>
+        <Button  size="large" variant="contained" color="primary"  className={classes.button}>
         확인
         </Button>
 
@@ -127,14 +226,13 @@ export const Filter = observer((props)=> {
         취소
         </Button>
         </Grid>
-        </Grid>
     </div>
   );
 
   return (
     <div>
      
-    <IconButton color="primary" component="span" onClick={handleOpen}>
+    <IconButton color="primary" component="span" onClick={handleOpen} sytle ={{zindex:1}}>
     <SvgIcon fontSize="large">
     <path fill="currentColor" d="M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.87V12H9.97L4.21,4.62C3.87,4.19 3.95,3.56 4.38,3.22C4.57,3.08 4.78,3 5,3V3H19V3C19.22,3 19.43,3.08 19.62,3.22C20.05,3.56 20.13,4.19 19.79,4.62L14.03,12H14Z" />
     </SvgIcon> </IconButton>

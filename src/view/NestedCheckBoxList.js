@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
 import {addressMap} from '../Location';
+import {Industry} from '../Industry';
 import { observer } from 'mobx-react';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,30 +21,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const temp = addressMap;
 
-export const LocationCheckBoxList = observer(({selected,handlingSelected}) =>  {
+export const NestedCheckBoxList = observer(({selected,handlingSelected,dataCode}) =>  {
 //export const CheckBoxList = observer(() =>  {
 
   const classes = useStyles();
-  
-  const [data, setData] = React.useState(temp);
+  var temp;
+  if(dataCode === 0){
+    temp = addressMap;
+  }
+  else if (dataCode === 2){
+    temp = Industry;
+  }
+  else {
+    temp = [];
+  }
+  const [data] = React.useState(temp);
   
   const handleCheckboxChange = (value) => {
-
-    const currentIndex = selected.indexOf(value);
-
+    const currentIndex = selected.findIndex(x=> x.name === value.name && x.code === value.code)  ;
     let newChecked = [...selected];
 
     //전체
-    if( value === "전체"){
+    if( value.name === "전체"){
       //선택
       if (currentIndex === -1) {
         newChecked =[];
-        data.Location.map((location) => {
-          newChecked.push(location.name);
-          location.options.map((option)=> {
-            newChecked.push(option);
+        data.map((level1) => {
+          newChecked.push({name: level1.name, code : level1.code});
+          level1.options.map((option)=> {
+            newChecked.push({name: option.name, code : option.code});
           })
       })}
       //해제
@@ -56,23 +63,23 @@ export const LocationCheckBoxList = observer(({selected,handlingSelected}) =>  {
     else{
         //선택
         if (currentIndex === -1) {
-          newChecked.push(value);
+          newChecked.push({name : value.name, code:value.code});
         } 
         //해제
         else {
           newChecked.splice(currentIndex, 1);
 
-          const totalIndex = selected.indexOf("전체");
+          const totalIndex = selected.findIndex(x=> x.name === "전체");
           if( totalIndex !== -1)
             newChecked.splice(totalIndex, 1);
 
           //하위 행정 구역 한번에 지우기
-          const city = data.Location.find(x => x.name===value)
-          if(city !== undefined){
-            city.options.map((town)=>{
-              const townIndex = newChecked.indexOf(town);
-              if( townIndex !== -1){
-                newChecked.splice(townIndex, 1);
+          const level1 = data.find(x => x.name===value.name)
+          if(level1 !== undefined){
+            level1.options.map((level2)=>{
+              const level2Index = newChecked.findIndex(x=> x.name === level2.name && x.code === level2.code);
+              if( level2Index !== -1){
+                newChecked.splice(level2Index, 1);
               }
             })
           }
@@ -88,28 +95,28 @@ export const LocationCheckBoxList = observer(({selected,handlingSelected}) =>  {
   return (
     <List className={classes.root}>
       {
-        data.Location.map((location) => {
-        const labelId = `checkbox-list-label-${location.name}`;
+        data.map((level1) => {
+        const labelId = `checkbox-list-label-${level1.name}`;
 
         return (
           <>
-          <ListItem key={location.name} role={undefined} dense button onClick={() => handleCheckboxChange(location.name)}>
+          <ListItem key={level1.name} role={undefined} dense button onClick={() => handleCheckboxChange(level1)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={selected.indexOf(location.name) !== -1}
+                checked={selected.findIndex(x=> x.name === level1.name && x.code === level1.code) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={location.name} />
+            <ListItemText id={labelId} primary={level1.name} />
             </ListItem>
                
-            <Collapse in={selected.indexOf(location.name) !== -1 && selected.indexOf("전체") === -1} timeout="auto" unmountOnExit>
+            <Collapse in={selected.findIndex(x=> x.name === level1.name) !== -1 && selected.findIndex(x=> x.name === "전체") === -1} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
             {
-              location.options.map((value) => {
+              level1.options.map((value) => {
                 if(value.length === 0){
                     return
                     }
@@ -118,13 +125,13 @@ export const LocationCheckBoxList = observer(({selected,handlingSelected}) =>  {
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
-                        checked={selected.indexOf(value) !== -1}
+                        checked={selected.findIndex(x=> x.name === value.name  && x.code === value.code) !== -1}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </ListItemIcon>
-                        <ListItemText primary={value} />
+                        <ListItemText primary={value.name} />
                     </ListItem>
                 )})
             }
