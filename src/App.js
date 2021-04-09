@@ -6,7 +6,6 @@ function App() {
        <Main>
 
        </Main>
-
   );
 }
 
