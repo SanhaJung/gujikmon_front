@@ -13,6 +13,8 @@ import { observer } from 'mobx-react';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import {addressMap} from "../Location";
 import {Industry} from  "../Industry";
+import {useStores} from '../store/Context';
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -70,6 +72,7 @@ export const Filter = observer((props)=> {
   const [locationSelected, SetLocationSelected] = React.useState([]);
   const [certificationSelected, SetCertifictaionSelected] =React.useState([]);
   const [typeSelected, SetTypeSelected] =React.useState([]);
+  const {filterStore} =  useStores();
 
   const handlingLocationSelected = (value)=>{
     SetLocationSelected(value);
@@ -131,13 +134,17 @@ export const Filter = observer((props)=> {
     setOpen(true);
   };
 
-
   const handleClose = () => {
     SetLocationSelected([]);
     SetCertifictaionSelected([]);
     SetTypeSelected([]);
     setOpen(false);
   };
+
+  const handleApply = () => {
+    filterStore.SetFilter(locationSelected,certificationSelected,typeSelected);
+    setOpen(false);
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -218,7 +225,7 @@ export const Filter = observer((props)=> {
         초기화
       </Button>
       <div style={{flexGrow:1}}></div>
-        <Button  size="large" variant="contained" color="primary"  className={classes.button}>
+        <Button  size="large" variant="contained" color="primary"  className={classes.button} onClick={handleApply}>
         확인
         </Button>
 

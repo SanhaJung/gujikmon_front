@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PopoverPopupState from './PopOver'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-
+import LoginModal from './LoginModal';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
@@ -46,18 +46,28 @@ export default function DetailCard({card}) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  
-  const handleExpandClick = () => {
+  const preventDefault = (event) => event.preventDefault();
+  const [loginOpen, setLoginOpen] = React.useState(false);
+
+
+    const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const handleButtonChange = () =>{
+    if(loginOpen)
+      setLoginOpen(false);
+    else 
+      setLoginOpen(true);
+  }
 
   return (
     <Card className={classes.root}>
       <CardHeader
         action={
-            <IconButton aria-label="add to favorites">
+            <IconButton aria-label="add to favorites" onClick={handleButtonChange}>
           <FavoriteIcon />
-        </IconButton>
+          <LoginModal open={loginOpen} handleClose={handleButtonChange}></LoginModal>
+        </IconButton>  
         }
         title={card.coNm}
         subheader={card.coAddr}
@@ -77,7 +87,7 @@ export default function DetailCard({card}) {
 
         <CardActions> 
         {card.info.wantedInfoUrl.length > 0 && 
-        <Link className={classes.link} component="button" variant="body2" onClick={() => {console.info("I'm a button.");}}>
+          <Link href={card.info.wantedInfoUrl} onClick={preventDefault} className={classes.link} variant="body2">
         채용공고
         </Link>
         }

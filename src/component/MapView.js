@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import {Filter} from './SelectionView';
+import {Filter} from './Filter';
 
 const useStyles = makeStyles((theme) => ({
     heroContent: {

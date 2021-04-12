@@ -6,6 +6,7 @@ yarn add material-ui-popup-state
 yarn add mobx mobx-react
 yarn add @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
 yarn add axios
+yarn add react-kakao-login
 
 Rix열정도체
 이사만루

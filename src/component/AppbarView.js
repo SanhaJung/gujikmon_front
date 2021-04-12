@@ -10,8 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
-
 import logo from '../img/구직몬.png';
+import LoginModal from './LoginModal';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -90,6 +90,14 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     maxWidth: 100,
   },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 export default function PrimarySearchAppBar() {
@@ -99,6 +107,17 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
+  
+  const [loginOpen, setLoginOpen] = React.useState(false);
+
+  const handleLoginOpen = () => {
+    setLoginOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setLoginOpen(false);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -153,7 +172,7 @@ export default function PrimarySearchAppBar() {
         <p>Messages</p>
       </MenuItem> */}
       <MenuItem>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" >
       로그인
       </Button>
       </MenuItem>
@@ -196,7 +215,8 @@ export default function PrimarySearchAppBar() {
           <div className={classes.grow} />
 
           <div className={classes.sectionDesktop}>
-          <Button color="inherit">로그인</Button>
+          <Button color="inherit" onClick={handleLoginOpen}>로그인</Button>
+          <LoginModal open={loginOpen} handleClose={handleLoginClose}></LoginModal>
           <Button color="inherit">회원가입</Button>
 
           </div>
