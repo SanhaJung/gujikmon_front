@@ -9,10 +9,13 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PopoverPopupState from './PopOver'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import {useStores} from '../store/Context';
+import {observer} from 'mobx-react';
 import LoginModal from './LoginModal';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,39 +45,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function DetailCard({card}) {
+export const DetailCard = observer(({card}) =>{
+//export default function DetailCard({card}) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const preventDefault = (event) => event.preventDefault();
   const [loginOpen, setLoginOpen] = React.useState(false);
+  const {userStore} =  useStores();
 
-
-    const handleExpandClick = () => {
+  const handleExpandClick = () => {
     setExpanded(!expanded);
-  };
-  const handleButtonChange = () =>{
-    if(loginOpen)
-      setLoginOpen(false);
-    else 
-      setLoginOpen(true);
-  }
+    };
+    const handleButtonChange = () =>{
+      if(loginOpen)
+        setLoginOpen(false);
+      else 
+        setLoginOpen(true);
+    }
+    const handleFavoritesChange = (id) => {
+        if (userStore.favorites.indexOf(id) === -1){
+          userStore.addFavorites(id);
+        }
+        else{
+         userStore.deleteFavorites(id); 
+        }
+      };
+    
+    const CardheaderNotLogined = (
+      <CardHeader
+      action={
+          <IconButton aria-label="add to favorites" onClick={handleButtonChange}>
+        <FavoriteBorderIcon/>
+        <LoginModal open={loginOpen} handleClose={handleButtonChange}></LoginModal>
+      </IconButton>  
+      }
+      title={card.coNm}
+      subheader={card.coAddr}
+    />
+    )
+    const CardheaderLogined = (
+      <CardHeader
+              action={
+                      <IconButton aria-label="add to favorites" onClick={()=>handleFavoritesChange(card.id)}>
+                          {userStore.favorites.indexOf(card.id) !== -1 &&<FavoriteIcon style={{color: '#ff2400'}}/>
 
+                           }
+                          {userStore.favorites.indexOf(card.id) === -1 &&<FavoriteBorderIcon /> }
+                        </IconButton>  
+                        }
+                        title={card.coNm}
+                        subheader={card.coAddr}
+                      />
+    )
+   
   return (
     <Card className={classes.root}>
-      <CardHeader
-        action={
-            <IconButton aria-label="add to favorites" onClick={handleButtonChange}>
-          <FavoriteIcon />
-          <LoginModal open={loginOpen} handleClose={handleButtonChange}></LoginModal>
-        </IconButton>  
-        }
-        title={card.coNm}
-        subheader={card.coAddr}
-      />
-       {/*  <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
+        {window.sessionStorage.getItem('login') ==='0' && CardheaderNotLogined }
+        {window.sessionStorage.getItem('login') !=='0' && CardheaderLogined }
         <Grid container spacing={1} > 
         {    
           card.sgBrandNm.map((sgB,idx) => (       
@@ -86,9 +114,9 @@ export default function DetailCard({card}) {
         </Grid> 
 
         <CardActions> 
-        {card.info.wantedInfoUrl.length > 0 && 
-          <Link href={card.info.wantedInfoUrl} onClick={preventDefault} className={classes.link} variant="body2">
-        채용공고
+        {card.recruitment && 
+          <Link href={card.info[0].wantedInfoUrl} className={classes.link} variant="body2" target="_blank">
+          채용공고
         </Link>
         }
         <IconButton
@@ -105,12 +133,13 @@ export default function DetailCard({card}) {
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {card.coContent.length > 0 && <Typography paragraph>{card.coContent}</Typography>}
-          {card.coGdpnt.length > 0 && <Typography paragraph>{card.coGdpnt}</Typography>}
-          {card.coHomePage.length > 0 && <Typography paragraph>{card.coHomePage}</Typography>}
-          {card.alwaysWorkerCnt.length > 0 && <Typography paragraph>{card.alwaysWorkerCnt}</Typography>}
+          {/* {card.coContent.length > 0 && <Typography paragraph>{card.coContent}</Typography>}
+          {card.coGdpnt.length > 0 && <Typography paragraph>{card.coGdpnt}</Typography>} */}
+          {card.coHomePage&& <Typography paragraph><Link href={"http://"+ card.coHomePage} target="_blank" >홈페이지</Link></Typography>}
+          {card.coMainProd&&<Typography paragraph>{card.coMainProd}</Typography>}
+          {card.alwaysWorkerCnt && <Typography paragraph>근로자수: {card.alwaysWorkerCnt}</Typography>}
         </CardContent>
       </Collapse>
     </Card>
   );
-}
+});

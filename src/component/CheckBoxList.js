@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cert = ["전체","가족친화", "청년친화","경역혁신","기술혁신","강소기업"];
+const cert = ["전체","가족친화", "청년친화","경영혁신","기술혁신","강소기업"];
 export const CheckBoxList = observer(({selected,handlingSelected,dataCode}) =>  {
 //export const CheckBoxList = observer(() =>  {
 

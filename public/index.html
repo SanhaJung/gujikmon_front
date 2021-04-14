@@ -25,6 +25,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+    Kakao.init("54dde611328ae6537f66285b1cbad52d");
+
+    if (!sessionStorage.getItem("login")) {
+      console.log(sessionStorage.setItem("login", "0" ));
+    }
+    
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

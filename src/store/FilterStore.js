@@ -19,7 +19,7 @@ export class FilterStore{
     this.rootStore = root;
   }
 
-  SetFilter(lo, cer, ind){ 
+  async SetFilter(lo, cer, ind){ 
 
     //코드만 추출
     var locationCode  =[];
@@ -59,7 +59,6 @@ export class FilterStore{
         }
       }
     }
-    console.log(toDelete);
 
     toDelete.forEach((todelete)=>{
       //console.log(todelete)
@@ -84,7 +83,7 @@ export class FilterStore{
     this.myFilter.apply = "all";
     console.log(JSON.stringify(this.myFilter));
 
-    const result = this.filterApi.setFilter(JSON.stringify(this.myFilter));
-    console.log(result);
+    //const result = await this.filterApi.setFilter(JSON.stringify(this.myFilter));
+    return await this.filterApi.setFilter(this.myFilter);
   }
 }

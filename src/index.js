@@ -15,7 +15,7 @@ const theme = createMuiTheme({
       'GongGothicMedium',
       'GongGothicBold'
     ].join(','),
-    fontSize: '15',
+    fontSize: 15,
   }
 })
 

@@ -12,6 +12,7 @@ import {CompanyList} from './CardList';
 import PrimarySearchAppBar from './AppbarView';
 import KakaoMap from './MapView';
 import { Grid } from '@material-ui/core';
+import { FavoriteCardList } from './FavoriteCardList';
 
 
 function Copyright() {
@@ -67,7 +68,8 @@ export default function Main() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const login = window.sessionStorage.getItem("login");
+  console.log(login);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -78,14 +80,14 @@ export default function Main() {
         <Tabs value={value} 
         onChange={handleChange} aria-label="full width tabs example">
           <Tab label="기업정보" {...a11yProps(0)} />
-          <Tab label="관심기업" {...a11yProps(1)} />
+          {login !== '0' &&<Tab label="관심기업" {...a11yProps(1)} />}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <CompanyList></CompanyList>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        관심기업 표시
+        <FavoriteCardList></FavoriteCardList>
       </TabPanel>
       </main>
       {/* Footer */}

@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import logo from '../img/구직몬.png';
 import LoginModal from './LoginModal';
-
+import {logoutWithKakao , logoutWithGoogle} from './SocialLogin';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -108,7 +108,6 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
-  
   const [loginOpen, setLoginOpen] = React.useState(false);
 
   const handleLoginOpen = () => {
@@ -136,6 +135,24 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  function Login() {
+    const loginType =window.sessionStorage.getItem('login');
+    
+    if(loginType === '0')//로그인 안된 상태
+      return(<div>
+        <Button color="inherit" onClick={handleLoginOpen}>로그인</Button>
+        <LoginModal open={loginOpen} setOpen={setLoginOpen} handleClose={handleLoginClose}></LoginModal>
+        </div>
+      )
+    if(loginType === '1'){//카카오 로그인된 상태
+        return(
+        <Button color="inherit" onClick={ logoutWithKakao}>로그아웃</Button>
+        )}
+    else if(loginType ==='2'){ //구글 로그인된 상태
+      return logoutWithGoogle()
+    }
+  }
+  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -172,14 +189,7 @@ export default function PrimarySearchAppBar() {
         <p>Messages</p>
       </MenuItem> */}
       <MenuItem>
-      <Button variant="contained" color="primary" >
-      로그인
-      </Button>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-      <Button variant="contained" color="primary">
-        회원가입
-      </Button>
+      {Login()}
       </MenuItem>
     </Menu>
   );
@@ -196,7 +206,7 @@ export default function PrimarySearchAppBar() {
           >
             <RoomOutlinedIcon />
           </IconButton>
-         <a href="#" onClick="#"><img src={logo} alt="logo" className={classes.logo}/></a>
+         <a href={void(0)} onClick="#"><img src={logo} alt="logo" className={classes.logo}/></a>
 
          <div className={classes.grow} />
           <div className={classes.search} >
@@ -215,9 +225,8 @@ export default function PrimarySearchAppBar() {
           <div className={classes.grow} />
 
           <div className={classes.sectionDesktop}>
-          <Button color="inherit" onClick={handleLoginOpen}>로그인</Button>
-          <LoginModal open={loginOpen} handleClose={handleLoginClose}></LoginModal>
-          <Button color="inherit">회원가입</Button>
+          {Login()}
+          
 
           </div>
           <div className={classes.sectionMobile}>
@@ -233,7 +242,7 @@ export default function PrimarySearchAppBar() {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {/*renderMobileMenu*/}
       {renderMenu}
     </div>
   );

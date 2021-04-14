@@ -73,6 +73,7 @@ export const Filter = observer((props)=> {
   const [certificationSelected, SetCertifictaionSelected] =React.useState([]);
   const [typeSelected, SetTypeSelected] =React.useState([]);
   const {filterStore} =  useStores();
+  const {companyStore} = useStores();
 
   const handlingLocationSelected = (value)=>{
     SetLocationSelected(value);
@@ -141,8 +142,10 @@ export const Filter = observer((props)=> {
     setOpen(false);
   };
 
-  const handleApply = () => {
-    filterStore.SetFilter(locationSelected,certificationSelected,typeSelected);
+   async function handleApply() {
+    const result = await filterStore.SetFilter(locationSelected,certificationSelected,typeSelected);
+    result.splice(0,1);
+    companyStore.setCompany(result);
     setOpen(false);
   }
 

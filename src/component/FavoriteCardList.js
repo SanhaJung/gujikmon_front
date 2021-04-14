@@ -32,29 +32,38 @@ const useStyles = makeStyles((theme) => ({
 
 
 //export default function CompanyList() {
-export const CompanyList = observer(()=>{
+export const FavoriteCardList = observer(()=>{
   const classes = useStyles();
   const {companyStore} =  useStores();
-  companyStore.init();
-  const cards = companyStore.companys;
+  const {userStore} = useStores();
+
+  let cards = companyStore.companys;
+
+  let newCard =[];
+  cards.map((card) => {
+      if(userStore.favorites.indexOf(card.id) !== -1){
+          newCard.push(card);
+      }
+  })
+  cards=newCard;
   const [currentPage, setCurrentPage]= useState(1);
 
   const postsPerPage = 6;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPost = cards.slice(indexOfFirstPost,indexOfLastPost);
-
   
   const onChange= (e,activePage)=>{
     console.log(activePage);
     setCurrentPage(activePage);
     console.log({currentPage});
   };
+
   return (
     <Container className={classes.cardGrid} >        
         <Grid container spacing={2}>
         {currentPost.map((card) => (
-            <Grid item key={card._id} xs={12} sm={4}>
+            <Grid item key={card.bu} xs={12} sm={4}>
             {/* <Box p={0.5}> */}
             <DetailCard className={classes.card} card={card} spacing={2} />
             {/* </Box> */}
