@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
 
-import {Filter} from '../view/SelectionView';
-import CompanySearch from '../view/CompanySearch.js';
+import {Filter} from '../component/Filter';
 
 const { kakao } = window;
 
