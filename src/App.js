@@ -3,7 +3,7 @@ import Main from './component/MainView'
 function App() {
   return (
        <Main>
-         
+
        </Main>
   );
 }
