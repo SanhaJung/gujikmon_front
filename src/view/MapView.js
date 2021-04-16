@@ -34,7 +34,7 @@ export default function KakaoMap(){
     return (
       
        <div  className={classes.heroContent} >
-       <Container maxWidth="xl">
+       <Container maxWidth="false">
          {/* <Filter></Filter> */}
          <MapContainer></MapContainer>
          {/* <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
