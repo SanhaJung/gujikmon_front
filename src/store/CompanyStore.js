@@ -1,8 +1,7 @@
 import {action, makeObservable, observable} from 'mobx'
-import Companys from '../Companys';
 import SearchApi from '../api/SearchApi'
 
-class Company{
+export class Company{
   id= "ObjectId(integer)";  // 자동으로 생성됨(유닉스 시간+ 기기id+프로세스 id + 카운터 -> 책 p31)
   busiNo = "사업자등록번호(string)"
   coNm="기업명(string)";

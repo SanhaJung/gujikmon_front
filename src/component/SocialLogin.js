@@ -5,16 +5,20 @@ import { GoogleLogout } from 'react-google-login';
 import GoogleButtonImg from '../img/google_login_button.png';
 import Button from '@material-ui/core/Button';
 
-export function loginWithKakao() {
-    window.Kakao.Auth.login({
+export function loginWithKakao(callback) {
+      window.Kakao.Auth.login({
       success: function(authObj) {
-        alert(JSON.stringify(authObj));
+        //alert(JSON.stringify(authObj));
         console.log(authObj);
         window.sessionStorage.setItem('login' , '1');
-        window.location.reload();
+        const token = window.Kakao.Auth.getAccessToken();
+        callback(token);
+          //window.location.reload();
+        return  token;
       },
       fail: function(err) {
         alert(JSON.stringify(err))
+        return false;
       },
     });
   }
@@ -23,7 +27,7 @@ export function logoutWithKakao() {
     if(window.sessionStorage.getItem('login')==='1')
     {
         if(window.Kakao.Auth.getAccessToken()){
-            console.log("카카오 로그인 토큰 존재");
+            console.log(window.Kakao.Auth.getAccessToken());
             window.Kakao.Auth.logout(() =>{
                     console.log("로그아웃 하였습니다.");
                     window.sessionStorage.setItem('login','0');
@@ -35,11 +39,14 @@ export function logoutWithKakao() {
 }
 const clientId ="272905702781-80mi90k3gsjk1kbff0gdv8dsrc244mvt.apps.googleusercontent.com";
 
-export function loginWithGoogle({handleClose}) {
+export function loginWithGoogle({handleClose, userStore}) {
   const onSuccess = (response) => {
     console.log('[Google Login Success] : ' ,response);
     window.sessionStorage.setItem('login' , '2');
+    //console.log("id",response.tokenId )
+    userStore.setGoogleUserdata(response.tokenId);
     handleClose();
+    window.location.reload();
   }
   const onFailure = (response) =>{
     console.log('[Google Login Fail] : ' ,response);
@@ -63,7 +70,6 @@ export function logoutWithGoogle() {
     window.sessionStorage.setItem('login' , '0');
     window.location.reload();
   }
-  console.log("im here");
   return(
         <GoogleLogout
         clientId={clientId}

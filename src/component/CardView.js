@@ -64,12 +64,8 @@ export const DetailCard = observer(({card}) =>{
         setLoginOpen(true);
     }
     const handleFavoritesChange = (id) => {
-        if (userStore.favorites.indexOf(id) === -1){
-          userStore.addFavorites(id);
-        }
-        else{
-         userStore.deleteFavorites(id); 
-        }
+        userStore.updateFavorites(id);
+            
       };
     
     const CardheaderNotLogined = (

@@ -13,6 +13,7 @@ import PrimarySearchAppBar from './AppbarView';
 import KakaoMap from './MapView';
 import { Grid } from '@material-ui/core';
 import { FavoriteCardList } from './FavoriteCardList';
+import { useStores } from '../store/Context';
 
 
 function Copyright() {
@@ -65,11 +66,17 @@ function a11yProps(index) {
 export default function Main() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const {userStore} = useStores();
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    
+    if (newValue ===1){
+      const company= userStore.getFavoirtes();
+    }
   };
+
   const login = window.sessionStorage.getItem("login");
-  console.log(login);
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -80,7 +87,7 @@ export default function Main() {
         <Tabs value={value} 
         onChange={handleChange} aria-label="full width tabs example">
           <Tab label="기업정보" {...a11yProps(0)} />
-          {login !== '0' &&<Tab label="관심기업" {...a11yProps(1)} />}
+          {login !== '0' && <Tab label="관심기업" {...a11yProps(1)} />}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

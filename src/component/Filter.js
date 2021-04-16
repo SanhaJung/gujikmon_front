@@ -144,6 +144,7 @@ export const Filter = observer((props)=> {
 
    async function handleApply() {
     const result = await filterStore.SetFilter(locationSelected,certificationSelected,typeSelected);
+    console.log(result);
     result.splice(0,1);
     companyStore.setCompany(result);
     setOpen(false);

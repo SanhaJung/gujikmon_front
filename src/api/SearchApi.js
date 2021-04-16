@@ -5,7 +5,6 @@ class SearchApi{
     //URL = 'http://3.36.237.46/api/company/search/';
 
     search(keyword){
-        console.log(this.URL,keyword);
         return axios.get(this.URL+keyword).then((response)=>response.data);
         //axios.get(this.URL+keyword).then((response)=>
         //    {return response.data;}

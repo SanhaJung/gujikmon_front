@@ -9,6 +9,7 @@ import GoogleButtonImg from '../img/google_login_button.png';
 import Button from '@material-ui/core/Button';
 import {loginWithGoogle, loginWithKakao } from './SocialLogin';
 import GoogleLogin from 'react-google-login';
+import { useStores } from '../store/Context';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -63,8 +64,16 @@ export default function LoginModal({open,handleClose}) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
+  const {userStore} =useStores();
 
-  
+  function kakaoLoginInModal(){
+    loginWithKakao(function(token){
+      const result =userStore.setKakoUserdata(token);
+      console.log(result);    
+      window.location.reload();
+    });
+  }
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
                     <Grid container direction="row"
@@ -78,10 +87,10 @@ export default function LoginModal({open,handleClose}) {
                     </Grid>                    
                     <Grid container direction="row" justify="space-between"   alignItems="center">
                     <Button
-                        className={classes.button} onClick={() => {loginWithKakao() ; handleClose()}}>
+                        className={classes.button} onClick={() => {kakaoLoginInModal();handleClose();}}>
                         <img src={KakaoButtonImg} alt="Kitten" height="80" width="650" />
                     </Button>
-                  {loginWithGoogle({handleClose})}
+                  {loginWithGoogle({handleClose, userStore})}
                   {/*   <Button
                         className={classes.button} onClick={() => { loginWithGoogle(); handleClose()}}>
                         <img src={GoogleButtonImg} alt="Kitten" height="80" width="650" /> 
