@@ -117,14 +117,42 @@ export class CompanyStore{
     ]
       }
 
-  setCompany(companies){
+    setCompany(companies){
+
     let newCom=[];
     companies.map((data)=>{
+      //console.log("hih",data);
       let sgb= [];
+
+      if(data.sgBrandNm === undefined){//초기값이 설정되지 않았을 경우
+        data.company ={
+          id :"ObjectId(integer)",
+        busiNo : "사업자등록번호(string)",
+        coNm : "기업명(string)",
+        coAddr : "기업주소(string)",
+        regionCd : "지역 코드(integer)",
+        regionNm :"지역명(string)",
+        superIndTpCd :"업종 코드(integer)",
+        superIndTpNm : "업종 명(string)",
+        coMainProd : "주요 생산품목(string)",
+        coHomePage : "회사 홈페이지(string)",
+        alwaysWorkerCnt : "상시 근로자 수(string)",
+        recruitment : false,
+        x : "경도",
+        y :"위도",
+        }
+        data.sgBrandNm=[{ceNm:''}];
+        data.info={  //채용 정보 
+             exit : true,
+             wantedInfoUrl:"워크넷 채용정보 URL(string)",
+             wantedMobileInfoUrl:"워크넷 모바일 채용정보 URL(string)",
+          };
+      }
+
       data.sgBrandNm.map((sg)=>{
         sgb.push(sg.ceNm);
       })
-            
+      
       var com = new Company(
         data.company.id, 
         data.company.busiNo,
@@ -147,8 +175,5 @@ export class CompanyStore{
     })
     this.companys= newCom;
   };
-  getCompany(_id){
-    return this.companys.findIndex(x=> x.id === _id)  ;
-    
-  }
+
 }

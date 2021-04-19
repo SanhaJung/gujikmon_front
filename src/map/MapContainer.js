@@ -21,7 +21,7 @@ export const MapContainer = observer((props) => {
         center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
         level: 3,
       };
-      const map = new kakao.maps.Map(container, options);
+      const myMap = new kakao.maps.Map(container, options);
       
 
       //GPS 권한얻기
@@ -50,19 +50,19 @@ export const MapContainer = observer((props) => {
       //GPS 내 위치 마커 생성
       function displayMarkerMyHome(locPosition) {
         var marker = new kakao.maps.Marker({
-          map: map,
+          map: myMap,
           image: markerImageGPS,
           position: locPosition,
         });
 
         // 지도 중심좌표를 접속위치로 변경 GPS마커 생성
-        map.setCenter(locPosition);
-        marker.setMap(map);
+        myMap.setCenter(locPosition);
+        marker.setMap(myMap);
       }
 
       // 클러스터러 생성
       var clusterer = new kakao.maps.MarkerClusterer({
-        map: map,
+        map: myMap,
         averageCenter: true,
         minLevel: 4,
         styles: [
@@ -99,16 +99,16 @@ export const MapContainer = observer((props) => {
       var hireMarkers = [];
 
       companyStore.companys.forEach((el) => {
-        //console.log("This is " ,el);
+        console.log("This is " ,el);
         const Companymarker = new kakao.maps.Marker({
-          map: map,
+          map: myMap,
           position: new kakao.maps.LatLng(el.y, el.x),
           image: companyMarkerImage,
           clickable: true,
           // MarkerImage : markerImage,
         });
 
-        if (el.recruitment === "true") {
+        if (el.recruitment === true) {
           var contents =
             '<div class="customoverlay">' +
             '<div class="info">' +
@@ -132,19 +132,19 @@ export const MapContainer = observer((props) => {
         }
 
         const customOverlay = new kakao.maps.CustomOverlay({
-          position: new kakao.maps.LatLng(el.lat, el.lng),
+          position: new kakao.maps.LatLng(el.y, el.x),
           content: contents,
           xAnchor: 0.35,
           yAnchor: 2.2,
         });
 
         //특정 지도 이상이면 말풍선 안보이는 이벤트
-        kakao.maps.event.addListener(map, "zoom_changed", function () {
-          var mapLevel = map.getLevel();
+        kakao.maps.event.addListener(myMap, "zoom_changed", function () {
+          var mapLevel = myMap.getLevel();
           if (mapLevel >= 4) {
             customOverlay.setMap(null);
           } else {
-            customOverlay.setMap(map, Companymarker);
+            customOverlay.setMap(myMap, Companymarker);
           }
         });
 
@@ -156,8 +156,8 @@ export const MapContainer = observer((props) => {
         }
         document.getElementById("show").onclick = function showMarkers() {
           if (el.recruitment === "true") {
-           setMarkers(map);
-           customOverlay.setMap(map, Companymarker);
+           setMarkers(myMap);
+           customOverlay.setMap(myMap, Companymarker);
           }
         }
         document.getElementById("hide").onclick = function hideMarkers() {
@@ -170,16 +170,16 @@ export const MapContainer = observer((props) => {
         
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(Companymarker, "click", function () {
-          customOverlay.setMap(map, Companymarker);
+          customOverlay.setMap(myMap, Companymarker);
         });   
         //마커, 오버레이 지도 표시
-        customOverlay.setMap(map, Companymarker);
+        customOverlay.setMap(myMap, Companymarker);
         markers.push(Companymarker);
         clusterer.addMarkers(markers);
       });
       //↑마커 생성끝
 
-      map.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
+      myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
     }, []);
     
 

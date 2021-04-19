@@ -108,12 +108,13 @@ export const PrimarySearchAppBar = observer(() => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [searchKeyworkd, setSearchKeword] = React.useState('');
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
   const [loginOpen, setLoginOpen] = React.useState(false);
   const {userStore}= useStores();
+
   const handleLoginOpen = () => {
     setLoginOpen(true);
   };
@@ -142,7 +143,6 @@ export const PrimarySearchAppBar = observer(() => {
 
     //const loginType =window.sessionStorage.getItem('login');
     const loginType =userStore.login_type;
-    console.log(loginType)
     if(loginType === 0)//로그인 안된 상태
       return(<div>
         <CSRFToken></CSRFToken>
@@ -158,7 +158,13 @@ export const PrimarySearchAppBar = observer(() => {
       return (<LogoutWithGoogle></LogoutWithGoogle>)
     }
   }
-  
+
+  const handleValueChange = (e) =>{
+    setSearchKeword( e.target.value);
+  } 
+  const handleSeacrhClick = (e)=>{
+
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -203,7 +209,11 @@ export const PrimarySearchAppBar = observer(() => {
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
-              }}
+              }}      
+              name="searchKeyword"
+              value={searchKeyworkd}
+              onChange={handleValueChange}
+              onClick={handleSeacrhClick}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>

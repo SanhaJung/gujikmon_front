@@ -40,7 +40,7 @@ export const FavoriteCardList = observer(()=>{
   const [currentPage, setCurrentPage]= useState(1);
 
 
-  const postsPerPage = 6;
+  const postsPerPage = 9;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPost = cards.slice(indexOfFirstPost,indexOfLastPost);
@@ -55,7 +55,7 @@ export const FavoriteCardList = observer(()=>{
     <Container className={classes.cardGrid} >        
         <Grid container spacing={2}>
         {currentPost.map((card) => (
-            <Grid item key={card.bu} xs={12} sm={4}>
+            <Grid item key={card.id} xs={12} sm={4}>
             {/* <Box p={0.5}> */}
             <DetailCard className={classes.card} card={card} spacing={2} />
             {/* </Box> */}

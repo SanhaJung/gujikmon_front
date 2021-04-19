@@ -68,25 +68,19 @@ export const DetailCard = observer(({card}) =>{
         setLoginOpen(true);
     }
 
-  const handleFavoritesChange = (id) => {
-
-        const result = userStore.updateFavorites(id);
-        if(result === -1){
-          console.log("Update Error : ", id )
-        }
-        else if(result){
-          const index = companyStore.getCompany(id)
-          if(index !==-1)
-             console.log(companyStore.companys[index]);
-        }
-        else if(!result){
-          const index = companyStore.getCompany(id)
-          if(index !==-1)
-             console.log(companyStore.companys[index]);
-
-        }
-            
-      };
+    async function handleFavoritesChange(card){
+      const result = await userStore.updateFavorites(card.id);
+      console.log("Update Api result : " ,result);
+      if(result === -1){
+        console.log("Update Error : ", card.id )
+      }
+      else if(result){ //관심기업 추가
+        userStore.addFavorite(card);
+      }
+      else if(!result){//관심기업 삭제
+        userStore.removeFavoirte(card);
+      }
+    }
     
     const CardheaderNotLogined = (
       <CardHeader
@@ -105,7 +99,7 @@ export const DetailCard = observer(({card}) =>{
       <CSRFToken/>
       <CardHeader
               action={
-                      <IconButton aria-label="add to favorites" onClick={()=>handleFavoritesChange(card.id)}>
+                      <IconButton aria-label="add to favorites" onClick={()=>handleFavoritesChange(card)}>
                           {userStore.favorites_id.indexOf(card.id) !== -1 &&<FavoriteIcon style={{color: '#ff2400'}}/>
 
                            }

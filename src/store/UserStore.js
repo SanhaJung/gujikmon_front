@@ -111,5 +111,21 @@ export class UserStore{
     this.setFavorites(result.cofavorites);
 
   }
+
+  addFavorite(com){
+      this.favorites.push(com);
+      this.favorites_id.push(com.id);
+
+      return true;
+  }
+
+  removeFavoirte(com){
+      const index = this.favorites.findIndex(x=> x.id === com.id)
+      this.favorites.splice(index,1);
+      const id_index = this.favorites_id.indexOf(com.id);
+      this.favorites_id.splice(id_index,1);
+
+      return true;
+  }
   
 }

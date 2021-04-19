@@ -39,7 +39,7 @@ export const CompanyList = observer(()=>{
   const cards = companyStore.companys;
   const [currentPage, setCurrentPage]= useState(1);
 
-  const postsPerPage = 6;
+  const postsPerPage = 9;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPost = cards.slice(indexOfFirstPost,indexOfLastPost);
