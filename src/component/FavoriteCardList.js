@@ -34,19 +34,11 @@ const useStyles = makeStyles((theme) => ({
 //export default function CompanyList() {
 export const FavoriteCardList = observer(()=>{
   const classes = useStyles();
-  const {companyStore} =  useStores();
   const {userStore} = useStores();
 
-  let cards = companyStore.companys;
-
-  let newCard =[];
-  cards.map((card) => {
-      if(userStore.favorites.indexOf(card.id) !== -1){
-          newCard.push(card);
-      }
-  })
-  cards=newCard;
+  const cards = userStore.favorites;
   const [currentPage, setCurrentPage]= useState(1);
+
 
   const postsPerPage = 6;
   const indexOfLastPost = currentPage * postsPerPage;

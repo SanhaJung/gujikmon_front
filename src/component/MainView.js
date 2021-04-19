@@ -9,11 +9,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 
 import {CompanyList} from './CardList';
-import PrimarySearchAppBar from './AppbarView';
+import {PrimarySearchAppBar} from './AppbarView';
 import KakaoMap from './MapView';
 import { Grid } from '@material-ui/core';
 import { FavoriteCardList } from './FavoriteCardList';
 import { useStores } from '../store/Context';
+import { observer } from 'mobx-react';
 
 
 function Copyright() {
@@ -63,19 +64,14 @@ function a11yProps(index) {
   };
 }
 
-export default function Main() {
+export  const  Main = observer(() => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const {userStore} = useStores();
-  const handleChange = (event, newValue) => {
+  
+  function handleChange(e, newValue) {
     setValue(newValue);
-    
-    if (newValue ===1){
-      const company= userStore.getFavoirtes();
-    }
-  };
-
-  const login = window.sessionStorage.getItem("login");
+  }  
 
   return (
     <React.Fragment>
@@ -87,7 +83,7 @@ export default function Main() {
         <Tabs value={value} 
         onChange={handleChange} aria-label="full width tabs example">
           <Tab label="기업정보" {...a11yProps(0)} />
-          {login !== '0' && <Tab label="관심기업" {...a11yProps(1)} />}
+          {userStore.login_type !== 0 && <Tab label="관심기업" {...a11yProps(1)} />}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -99,6 +95,7 @@ export default function Main() {
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
+
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
@@ -110,4 +107,4 @@ export default function Main() {
       {/* End footer */}
     </React.Fragment>
   );
-}
+})

@@ -17,13 +17,14 @@ class UserApi{
             user_pk:user_pk,
             favorite:company_id,
         }
+        console.log(body);
         return axios.put(this.URL+'favorite/update/',body).then((response)=> response.data).catch(function(error){
             return "-1"
         });
     }
 
     getFavorite(user_pk){
-        return axios.get(this.URL+'favortie/list/'+user_pk+'/').then((response) => response.data).catch(function(error){
+        return axios.get(this.URL+'favorite/list/'+user_pk).then((response) => response.data).catch(function(error){
             return "-1"
         });
     }

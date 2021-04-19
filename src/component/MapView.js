@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Filter} from './Filter';
 import SearchApi from '../api/SearchApi';
 
-import MapContainer from '../map/MapContainer';
+import {MapContainer} from '../map/MapContainer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,7 @@ export default function KakaoMap(){
 
     return (
       
-       <div  >
+       <div className={classes.heroContent} >
        <Container maxWidth='false'>
          <MapContainer></MapContainer>
        </Container>

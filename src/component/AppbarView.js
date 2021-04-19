@@ -11,8 +11,12 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import logo from '../img/구직몬.png';
-import LoginModal from './LoginModal';
-import {logoutWithKakao , logoutWithGoogle} from './SocialLogin';
+import {LoginModal} from './LoginModal';
+import {LogoutWithKakao , LogoutWithGoogle} from './SocialLogin';
+import CSRFToken from '../api/csrftoken';
+import { useStores } from '../store/Context';
+import { observer } from 'mobx-react';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -100,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export const PrimarySearchAppBar = observer(() => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -109,7 +113,7 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
   const [loginOpen, setLoginOpen] = React.useState(false);
-
+  const {userStore}= useStores();
   const handleLoginOpen = () => {
     setLoginOpen(true);
   };
@@ -134,22 +138,24 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
   function Login() {
-    const loginType =window.sessionStorage.getItem('login');
-    
-    if(loginType === '0')//로그인 안된 상태
+
+    //const loginType =window.sessionStorage.getItem('login');
+    const loginType =userStore.login_type;
+    console.log(loginType)
+    if(loginType === 0)//로그인 안된 상태
       return(<div>
+        <CSRFToken></CSRFToken>
         <Button color="inherit" onClick={handleLoginOpen}>로그인</Button>
         <LoginModal open={loginOpen} setOpen={setLoginOpen} handleClose={handleLoginClose}></LoginModal>
         </div>
       )
-    if(loginType === '1'){//카카오 로그인된 상태
+    if(loginType === 1){//카카오 로그인된 상태
         return(
-        <Button color="inherit" onClick={ logoutWithKakao}>로그아웃</Button>
+        <Button color="inherit" onClick={ LogoutWithKakao}>로그아웃</Button>
         )}
-    else if(loginType ==='2'){ //구글 로그인된 상태
-      return logoutWithGoogle()
+    else if(loginType ===2){ //구글 로그인된 상태
+      return (<LogoutWithGoogle></LogoutWithGoogle>)
     }
   }
   
@@ -170,29 +176,8 @@ export default function PrimarySearchAppBar() {
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-   {/*    <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem> */}
-      <MenuItem>
-      {Login()}
-      </MenuItem>
-    </Menu>
-  );
+  
+
 
   return (
     <div className={classes.grow}>
@@ -223,11 +208,10 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <div className={classes.grow} />
-
+     
           <div className={classes.sectionDesktop}>
-          {Login()}
-          
-
+           {Login()}
+         
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -246,4 +230,4 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </div>
   );
-}
+});

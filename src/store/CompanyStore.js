@@ -16,7 +16,9 @@ export class Company{
   coHomePage="회사 홈페이지(string)";
   alwaysWorkerCnt="상시 근로자 수(string)";
   sgBrandNm=["인증제도1","인증제도2"];
-  recruitment="채용여부(bool)"
+  recruitment="채용여부(bool)";
+  x= "경도";
+  y= "위도";
   info={  //채용 정보 
        exit : true,
        wantedInfoUrl:"워크넷 채용정보 URL(string)",
@@ -24,7 +26,7 @@ export class Company{
     };
   
     constructor(id,busiNo,coNm,coAddr,regionCd,regionNum,superIndTpCd,superIndTpNm,
-      coMainProd,coHomePage,alwaysWorkerCnt,recuritment,sgBrandNm,info){
+      coMainProd,coHomePage,alwaysWorkerCnt,recuritment,sgBrandNm,info,x,y){
         this.id =id;
         this.busiNo =busiNo;
         this.coNm=coNm;
@@ -40,6 +42,8 @@ export class Company{
         this.alwaysWorkerCnt=alwaysWorkerCnt;
         this.sgBrandNm = sgBrandNm;
         this.recruitment = recuritment;
+        this.x=x;
+        this.y=y;
         if(recuritment)
           this.info=info;
         else
@@ -98,7 +102,9 @@ export class CompanyStore{
         data.company.alwaysWorkerCnt,
         data.company.recruitment,
         sgb,
-        data.info);
+        data.info,
+        data.company.x,
+        data.company.y);
       // console.log("ok"); 
       this.companys.push(com);
     })
@@ -133,10 +139,16 @@ export class CompanyStore{
         data.company.alwaysWorkerCnt,
         data.company.recruitment,
         sgb,
-        data.info);
+        data.info,
+        data.company.x,
+        data.company.y);
       
         newCom.push(com);
     })
     this.companys= newCom;
   };
+  getCompany(_id){
+    return this.companys.findIndex(x=> x.id === _id)  ;
+    
+  }
 }

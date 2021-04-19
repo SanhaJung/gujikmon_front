@@ -16,7 +16,8 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import {useStores} from '../store/Context';
 import {observer} from 'mobx-react';
-import LoginModal from './LoginModal';
+import {LoginModal} from './LoginModal';
+import CSRFToken from '../api/csrftoken';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
@@ -53,52 +54,74 @@ export const DetailCard = observer(({card}) =>{
   const preventDefault = (event) => event.preventDefault();
   const [loginOpen, setLoginOpen] = React.useState(false);
   const {userStore} =  useStores();
+  const {companyStore} = useStores();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
     };
-    const handleButtonChange = () =>{
+
+  const handleButtonChange = () =>{
+    console.log(loginOpen)
       if(loginOpen)
         setLoginOpen(false);
       else 
         setLoginOpen(true);
     }
-    const handleFavoritesChange = (id) => {
-        userStore.updateFavorites(id);
+
+  const handleFavoritesChange = (id) => {
+
+        const result = userStore.updateFavorites(id);
+        if(result === -1){
+          console.log("Update Error : ", id )
+        }
+        else if(result){
+          const index = companyStore.getCompany(id)
+          if(index !==-1)
+             console.log(companyStore.companys[index]);
+        }
+        else if(!result){
+          const index = companyStore.getCompany(id)
+          if(index !==-1)
+             console.log(companyStore.companys[index]);
+
+        }
             
       };
     
     const CardheaderNotLogined = (
       <CardHeader
       action={
-          <IconButton aria-label="add to favorites" onClick={handleButtonChange}>
-        <FavoriteBorderIcon/>
-        <LoginModal open={loginOpen} handleClose={handleButtonChange}></LoginModal>
-      </IconButton>  
-      }
-      title={card.coNm}
-      subheader={card.coAddr}
+              <IconButton aria-label="add to favorites" onClick={handleButtonChange}>
+            <FavoriteBorderIcon/>
+            <LoginModal open={loginOpen}></LoginModal>
+          </IconButton>  
+          }
+          title={card.coNm}
+          subheader={card.coAddr}
     />
     )
     const CardheaderLogined = (
+      <>
+      <CSRFToken/>
       <CardHeader
               action={
                       <IconButton aria-label="add to favorites" onClick={()=>handleFavoritesChange(card.id)}>
-                          {userStore.favorites.indexOf(card.id) !== -1 &&<FavoriteIcon style={{color: '#ff2400'}}/>
+                          {userStore.favorites_id.indexOf(card.id) !== -1 &&<FavoriteIcon style={{color: '#ff2400'}}/>
 
                            }
-                          {userStore.favorites.indexOf(card.id) === -1 &&<FavoriteBorderIcon /> }
+                          {userStore.favorites_id.indexOf(card.id) === -1 &&<FavoriteBorderIcon /> }
                         </IconButton>  
                         }
                         title={card.coNm}
                         subheader={card.coAddr}
                       />
+        </>
     )
    
   return (
     <Card className={classes.root}>
-        {window.sessionStorage.getItem('login') ==='0' && CardheaderNotLogined }
-        {window.sessionStorage.getItem('login') !=='0' && CardheaderLogined }
+        {userStore.login_type=== 0 && CardheaderNotLogined }
+        {userStore.login_type !== 0 && CardheaderLogined }
         <Grid container spacing={1} > 
         {    
           card.sgBrandNm.map((sgB,idx) => (       

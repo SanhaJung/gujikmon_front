@@ -7,7 +7,6 @@ import {StoreProvider} from './store/Context';
 import {RootStore} from './store/RootStore';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
-
 const rootStore = new RootStore();
 const theme = createMuiTheme({
   typography:{

@@ -4,12 +4,17 @@ import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
 
 import {Filter} from '../component/Filter';
+import { observer } from 'mobx-react';
+import { useStores } from '../store/Context';
 
 const { kakao } = window;
 
 
 
-const MapContainer = () => {
+export const MapContainer = observer((props) => {
+
+    const {companyStore} = useStores();
+  
     useEffect(() => {
       const container = document.getElementById("map");
       const options = {
@@ -17,6 +22,7 @@ const MapContainer = () => {
         level: 3,
       };
       const map = new kakao.maps.Map(container, options);
+      
 
       //GPS 권한얻기
       if (navigator.geolocation) {
@@ -92,10 +98,11 @@ const MapContainer = () => {
       var markers = [];
       var hireMarkers = [];
 
-      MarkerData.forEach((el) => {
+      companyStore.companys.forEach((el) => {
+        //console.log("This is " ,el);
         const Companymarker = new kakao.maps.Marker({
           map: map,
-          position: new kakao.maps.LatLng(el.lat, el.lng),
+          position: new kakao.maps.LatLng(el.y, el.x),
           image: companyMarkerImage,
           clickable: true,
           // MarkerImage : markerImage,
@@ -174,17 +181,17 @@ const MapContainer = () => {
 
       map.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
     }, []);
-  
-
-  
+    
 
     return (
       <React.Fragment>
+
         <div id="map" style={{ width: "100%", height: "60vh" }}>
-          <Filter></Filter>
+        <Filter></Filter>
+
           <div
             class="can-toggle can-toggle--size-large"
-            style={{ float: "left", left: "40%", top: "1.5%" }}
+            style={{ float: "left", left: "90%", top: "1.5%" }}
           >
             <input id="c" type="checkbox"/>
             <label for="c">
@@ -197,12 +204,11 @@ const MapContainer = () => {
           </div>
          
         </div>
-        <button id="hide"  onclick="hideMarkers()">마커 감추기</button>
-        <button id="show" onclick="showMarkers()">마커 보이기</button>
+
+        <button id="hide"  onClick="hideMarkers()">마커 감추기</button>
+        <button id="show" onClick="showMarkers()">마커 보이기</button>
         {/* position:'relative', left:'91%', top:'15%' */}
       </React.Fragment>
     );
-}
-
-export default MapContainer; 
+})
 

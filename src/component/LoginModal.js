@@ -7,11 +7,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import KakaoButtonImg from '../img/kakao_login_buton.png';
 import GoogleButtonImg from '../img/google_login_button.png';
 import Button from '@material-ui/core/Button';
-import {loginWithGoogle, loginWithKakao } from './SocialLogin';
+import { LoginWithGoogle, LoginWithKakao } from './SocialLogin';
 import GoogleLogin from 'react-google-login';
 import { useStores } from '../store/Context';
+import { observer } from 'mobx-react';
 
-function rand() {
+
+export default function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
 
@@ -60,44 +62,42 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-export default function LoginModal({open,handleClose}) {
+export const LoginModal = observer( ({open,handleClose}) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const {userStore} =useStores();
 
   function kakaoLoginInModal(){
-    loginWithKakao(function(token){
-      const result =userStore.setKakoUserdata(token);
-      console.log(result);    
-      window.location.reload();
+     LoginWithKakao(function(token){
+      userStore.setKakoUserdata(token);
+
+      //window.location.reload();
     });
   }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-                    <Grid container direction="row"
-                        justify="space-between"
-                        alignItems="center"
-                        >
-                        <h2 id="simple-modal-title">로그인</h2>
-                        <IconButton  component="span" onClick={handleClose}>
-                            <CloseIcon  fontSize="large"></CloseIcon>
-                        </IconButton>
-                    </Grid>                    
-                    <Grid container direction="row" justify="space-between"   alignItems="center">
-                    <Button
-                        className={classes.button} onClick={() => {kakaoLoginInModal();handleClose();}}>
-                        <img src={KakaoButtonImg} alt="Kitten" height="80" width="650" />
-                    </Button>
-                  {loginWithGoogle({handleClose, userStore})}
-                  {/*   <Button
-                        className={classes.button} onClick={() => { loginWithGoogle(); handleClose()}}>
-                        <img src={GoogleButtonImg} alt="Kitten" height="80" width="650" /> 
-                    </Button>*/}
-                    </Grid>
-    </div>
-  );
+    <Grid container direction="row"
+        justify="space-between"
+        alignItems="center"
+        >
+        <h2 id="simple-modal-title">로그인</h2>
+        <IconButton  component="span" onClick={handleClose}>
+            <CloseIcon  fontSize="large"></CloseIcon>
+        </IconButton>
+    </Grid>                    
+    <Grid container direction="row" justify="space-between"   alignItems="center">
+    <Button
+        className={classes.button} onClick={() => {kakaoLoginInModal()}}>
+        <img src={KakaoButtonImg} alt="Kitten" height="80" width="650" />
+    </Button>
+    <Button>
+    <LoginWithGoogle handleClose={handleClose}  ></LoginWithGoogle>
+    </Button>
+    </Grid>
+</div>
+  )
 
   return (
     <div>
@@ -108,8 +108,9 @@ export default function LoginModal({open,handleClose}) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body}
+      {body}
+       
       </Modal>
     </div>
   );
-}
+})
