@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
-import {Filter} from './Filter';
-import SearchApi from '../api/SearchApi';
-
+import {CompanySearch} from './CompanySearch';
 import {MapContainer} from '../map/MapContainer';
-
+import { useStores } from '../store/Context';
+import { observer } from 'mobx-react';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
     heroContent: {
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
+      padding: theme.spacing(5,0,0,0),
+
     },
     heroButtons: {
       marginTop: theme.spacing(4),
@@ -25,18 +25,25 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function KakaoMap(){
+export const KakaoMap = observer(() =>{
   
     const classes = useStyles();
+    const {searchStore} =useStores();
 
     return (
-      
        <div className={classes.heroContent} >
-       <Container maxWidth='false'>
-         <MapContainer></MapContainer>
-       </Container>
+       <Grid container maxWidth='false' disableGutters className={classes.root}>
+       {searchStore.searchFlag &&
+       <Grid item xs={3}> <CompanySearch></CompanySearch></Grid>}
+      
+      {searchStore.searchFlag &&
+        <Grid item xs={9}><MapContainer/></Grid>}
+      
+      {!searchStore.searchFlag&&
+      <Grid item xs={12}><MapContainer/> </Grid>}
+       </Grid>
      </div>
     
      
     );
-}
+});

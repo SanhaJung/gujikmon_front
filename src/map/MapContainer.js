@@ -14,8 +14,10 @@ const { kakao } = window;
 export const MapContainer = observer((props) => {
 
     const {companyStore} = useStores();
-  
+    companyStore.init();
+
     useEffect(() => {
+
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
@@ -99,7 +101,7 @@ export const MapContainer = observer((props) => {
       var hireMarkers = [];
 
       companyStore.companys.forEach((el) => {
-        console.log("This is " ,el);
+        console.log(el);
         const Companymarker = new kakao.maps.Marker({
           map: myMap,
           position: new kakao.maps.LatLng(el.y, el.x),
@@ -154,7 +156,7 @@ export const MapContainer = observer((props) => {
             hireMarkers[i].setMap(map);
           }
         }
-        document.getElementById("show").onclick = function showMarkers() {
+         document.getElementById("show").onclick = function showMarkers() {
           if (el.recruitment === "true") {
            setMarkers(myMap);
            customOverlay.setMap(myMap, Companymarker);
@@ -166,7 +168,7 @@ export const MapContainer = observer((props) => {
           customOverlay.setMap(null);
           }
         }
-        hireMarkers.push(Companymarker);
+        hireMarkers.push(Companymarker); 
         
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(Companymarker, "click", function () {
@@ -181,11 +183,10 @@ export const MapContainer = observer((props) => {
 
       myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
     }, []);
-    
+
 
     return (
       <React.Fragment>
-
         <div id="map" style={{ width: "100%", height: "60vh" }}>
         <Filter></Filter>
 
@@ -202,11 +203,10 @@ export const MapContainer = observer((props) => {
               ></div>
             </label>
           </div>
-         
         </div>
 
-        <button id="hide"  onClick="hideMarkers()">마커 감추기</button>
-        <button id="show" onClick="showMarkers()">마커 보이기</button>
+       <button id="hide"  onClick="hideMarkers()">마커 감추기</button>
+        <button id="show" onClick="showMarkers()">마커 보이기</button> 
         {/* position:'relative', left:'91%', top:'15%' */}
       </React.Fragment>
     );

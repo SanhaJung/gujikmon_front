@@ -113,6 +113,7 @@ export const DetailCard = observer(({card}) =>{
     )
    
   return (
+    <div>{card.coNm !== ""&&
     <Card className={classes.root}>
         {userStore.login_type=== 0 && CardheaderNotLogined }
         {userStore.login_type !== 0 && CardheaderLogined }
@@ -153,6 +154,6 @@ export const DetailCard = observer(({card}) =>{
           {card.alwaysWorkerCnt && <Typography paragraph>근로자수: {card.alwaysWorkerCnt}</Typography>}
         </CardContent>
       </Collapse>
-    </Card>
+    </Card>}</div>
   );
 });

@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 export const CompanyList = observer(()=>{
   const classes = useStyles();
   const {companyStore} =  useStores();
-  companyStore.init();
   const cards = companyStore.companys;
   const [currentPage, setCurrentPage]= useState(1);
 

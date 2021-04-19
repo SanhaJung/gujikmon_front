@@ -114,7 +114,8 @@ export const PrimarySearchAppBar = observer(() => {
   
   const [loginOpen, setLoginOpen] = React.useState(false);
   const {userStore}= useStores();
-
+  const {searchStore } =useStores();
+  const {companyStore} = useStores();
   const handleLoginOpen = () => {
     setLoginOpen(true);
   };
@@ -139,6 +140,8 @@ export const PrimarySearchAppBar = observer(() => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+
   function Login() {
 
     //const loginType =window.sessionStorage.getItem('login');
@@ -163,8 +166,21 @@ export const PrimarySearchAppBar = observer(() => {
     setSearchKeword( e.target.value);
   } 
   const handleSeacrhClick = (e)=>{
-
+    alert(e);
   };
+  async function keyPress(e){
+    if(e.keyCode == 13){
+      searchStore.searchFlag=false;
+      console.log(e.keyCode);
+      const result = await searchStore.Search(searchKeyworkd);
+      if (result.length > 0){
+        console.log("야호",result);
+        companyStore.setCompany(result);
+      }
+      e.target.value= '';
+      setSearchKeword('');
+    }
+ }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -200,8 +216,8 @@ export const PrimarySearchAppBar = observer(() => {
          <a href={void(0)} onClick="#"><img src={logo} alt="logo" className={classes.logo}/></a>
 
          <div className={classes.grow} />
-          <div className={classes.search} >
-            <div className={classes.searchIcon} >
+          <div className={classes.search}  >
+            <div className={classes.searchIcon} onClick={handleSeacrhClick}   >
               <SearchIcon />
             </div>
             <InputBase
@@ -209,11 +225,11 @@ export const PrimarySearchAppBar = observer(() => {
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
-              }}      
+              }}
               name="searchKeyword"
               value={searchKeyworkd}
               onChange={handleValueChange}
-              onClick={handleSeacrhClick}
+              onKeyDown={keyPress}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>

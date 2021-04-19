@@ -73,7 +73,7 @@ export class CompanyStore{
   }
 
   async init(){
-    if(this.flag){
+    if(this.flag){ //초기 한번만 실행을 위하여
       return;
     }
 
@@ -117,7 +117,7 @@ export class CompanyStore{
     ]
       }
 
-    setCompany(companies){
+  setCompany(companies){
 
     let newCom=[];
     companies.map((data)=>{
@@ -128,15 +128,15 @@ export class CompanyStore{
         data.company ={
           id :"ObjectId(integer)",
         busiNo : "사업자등록번호(string)",
-        coNm : "기업명(string)",
-        coAddr : "기업주소(string)",
+        coNm : "",
+        coAddr : "",
         regionCd : "지역 코드(integer)",
         regionNm :"지역명(string)",
         superIndTpCd :"업종 코드(integer)",
         superIndTpNm : "업종 명(string)",
-        coMainProd : "주요 생산품목(string)",
-        coHomePage : "회사 홈페이지(string)",
-        alwaysWorkerCnt : "상시 근로자 수(string)",
+        coMainProd : "",
+        coHomePage : "",
+        alwaysWorkerCnt : "",
         recruitment : false,
         x : "경도",
         y :"위도",

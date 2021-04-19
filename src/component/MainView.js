@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 
 import {CompanyList} from './CardList';
 import {PrimarySearchAppBar} from './AppbarView';
-import KakaoMap from './MapView';
+import {KakaoMap} from './MapView';
 import { Grid } from '@material-ui/core';
 import { FavoriteCardList } from './FavoriteCardList';
 import { useStores } from '../store/Context';
@@ -68,7 +68,7 @@ export  const  Main = observer(() => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const {userStore} = useStores();
-  
+
   function handleChange(e, newValue) {
     setValue(newValue);
   }  

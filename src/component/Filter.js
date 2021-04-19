@@ -76,6 +76,7 @@ export const Filter = observer((props)=> {
   const [typeSelected, SetTypeSelected] =React.useState([]);
   const {filterStore} =  useStores();
   const {companyStore} = useStores();
+  const {searchStore} = useStores();
 
   const handlingLocationSelected = (value)=>{
     SetLocationSelected(value);
@@ -148,6 +149,9 @@ export const Filter = observer((props)=> {
     const result = await filterStore.SetFilter(locationSelected,certificationSelected,typeSelected);
     result.splice(0,1);
     companyStore.setCompany(result);
+    searchStore.searchFlag = true;
+    searchStore.searchFlag = false;
+    console.log(result);
     setOpen(false);
   }
 
