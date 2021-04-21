@@ -1,5 +1,5 @@
 //Front
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
 
@@ -8,14 +8,19 @@ import { observer } from 'mobx-react';
 import { useStores } from '../store/Context';
 
 const { kakao } = window;
-
-
-
+//
+//
 export const MapContainer = observer((props) => {
+  
+    const[checked, setChecked] = useState(false);
+    // const [myMap, setMyMap] =useState(null);
 
-    const {companyStore} = useStores();
+
+    const {companyStore,applyStore} = useStores();
     companyStore.init();
+    applyStore.setApplyCompanies(companyStore.companys);
 
+    // console.log(applyStore.applyCompanies);
     useEffect(() => {
 
       const container = document.getElementById("map");
@@ -29,10 +34,10 @@ export const MapContainer = observer((props) => {
       //GPS 권한얻기
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-          var lat = position.coords.latitude, // 위도 y
+          let lat = position.coords.latitude, // 위도 y
             lon = position.coords.longitude; // 경도 x
 
-          var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 GPS로 얻어온 좌표로 생성
+          let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 GPS로 얻어온 좌표로 생성
           displayMarkerMyHome(locPosition);
         });
       } else {
@@ -40,11 +45,11 @@ export const MapContainer = observer((props) => {
       }
 
       //GPS 내위치 마커 이미지
-      var imageSrcGPS = "https://gsmb.mss.go.kr/images/icon/ico-map-pin.png",
+      let imageSrcGPS = "https://gsmb.mss.go.kr/images/icon/ico-map-pin.png",
         imageSizeGPS = new kakao.maps.Size(30, 29);
         
 
-      var markerImageGPS = new kakao.maps.MarkerImage(
+      let markerImageGPS = new kakao.maps.MarkerImage(
         imageSrcGPS,
         imageSizeGPS,
       );
@@ -63,10 +68,10 @@ export const MapContainer = observer((props) => {
       }
 
       // 클러스터러 생성
-      var clusterer = new kakao.maps.MarkerClusterer({
+      let clusterer = new kakao.maps.MarkerClusterer({
         map: myMap,
         averageCenter: true,
-        minLevel: 4,
+        minLevel: 2,
         styles: [
           {
             color: "white",
@@ -80,111 +85,176 @@ export const MapContainer = observer((props) => {
         ],
       });
      
-      var markerImageSrc =
+      let markerImageSrc =
           "https://gsmb.mss.go.kr/images/icon/ico_kakao_medium_mark.png",
         markerImageSize = new kakao.maps.Size(64, 69),
         markerImageOption = {
-          spriteSize: new kakao.maps.Size(30, 938),
-          spriteOrigin: new kakao.maps.Point(0, 30),
-          offset: new kakao.maps.Point(27, 69),
+          spriteSize: new kakao.maps.Size(34, 950),
+          spriteOrigin: new kakao.maps.Point(0, 900),
+          offset: new kakao.maps.Point(10, 50),
         };
       
 
-      var companyMarkerImage = new kakao.maps.MarkerImage(
+      let companyMarkerImage = new kakao.maps.MarkerImage(
         markerImageSrc,
         markerImageSize,
         markerImageOption
       );
 
       //기업 마커 생성
-      var markers = [];
-      var hireMarkers = [];
+      let markers = [];
+      let hireMarkers = [];
+      
+      if (checked){
+        applyStore.applyCompanies.forEach((el) => {
+          removeMarker();
+          const Companymarker = new kakao.maps.Marker({
+            map: myMap,
+            position: new kakao.maps.LatLng(el.y, el.x),
+            image: companyMarkerImage,
+            clickable: true,
+            // MarkerImage : markerImage,
+          });
 
-      companyStore.companys.forEach((el) => {
-        console.log(el);
-        const Companymarker = new kakao.maps.Marker({
-          map: myMap,
-          position: new kakao.maps.LatLng(el.y, el.x),
-          image: companyMarkerImage,
-          clickable: true,
-          // MarkerImage : markerImage,
-        });
-
-        if (el.recruitment === true) {
-          var contents =
-            '<div class="customoverlay">' +
-            '<div class="info">' +
-            '<div class="title">' +
-            el.coNm +
-            "</div>" +
-            '<div class="body">' +
-            "채용중" +
-            '</div ">' +
-            '</div ">' +
-            "</div>";
-        } else {
-          var contents =
-            '<div class="customoverlay">' +
-            '<div class="info">' +
-            '<div class="title">' +
-            el.coNm +
-            "</div>" +
-            '</div ">' +
-            "</div>" 
-        }
-
-        const customOverlay = new kakao.maps.CustomOverlay({
-          position: new kakao.maps.LatLng(el.y, el.x),
-          content: contents,
-          xAnchor: 0.35,
-          yAnchor: 2.2,
-        });
-
-        //특정 지도 이상이면 말풍선 안보이는 이벤트
-        kakao.maps.event.addListener(myMap, "zoom_changed", function () {
-          var mapLevel = myMap.getLevel();
-          if (mapLevel >= 4) {
-            customOverlay.setMap(null);
+          if (el.recruitment === true) {
+            var contents =
+              '<div class="customoverlay">' +
+              '<div class="info">' +
+              '<div class="title">' +
+              el.coNm +
+              "</div>" +
+              '<div class="body">' +
+              '<a href='+
+              el.info[0].wantedInfoUrl+
+              '>'+
+              "채용중" +
+              '</a>'+
+              '</div ">' +
+              '</div ">' +
+              "</div>";
           } else {
+            var contents =
+              '<div class="customoverlay">' +
+              '<div class="info">' +
+              '<div class="title">' +
+              el.coNm +
+              "</div>" +
+              '</div ">' +
+              "</div>" 
+          }
+
+          const customOverlay = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(el.y, el.x),
+            content: contents,
+           
+          });
+
+          //특정 지도 이상이면 말풍선 안보이는 이벤트
+          kakao.maps.event.addListener(myMap, "zoom_changed", function () {
+            var mapLevel = myMap.getLevel();
+            if (mapLevel >= 3) {
+              customOverlay.setMap(null);
+            } else {
+              customOverlay.setMap(myMap, Companymarker);
+            }
+          });
+
+          hireMarkers.push(Companymarker); 
+          
+          // 마커에 클릭이벤트를 등록합니다
+          kakao.maps.event.addListener(Companymarker, "click", function () {
             customOverlay.setMap(myMap, Companymarker);
-          }
-        });
-
-        //전체-채용중 
-        function setMarkers(map) {
-          for (var i = 0; i < hireMarkers.length; i++) {
-            hireMarkers[i].setMap(map);
-          }
-        }
-         document.getElementById("show").onclick = function showMarkers() {
-          if (el.recruitment === "true") {
-           setMarkers(myMap);
-           customOverlay.setMap(myMap, Companymarker);
-          }
-        }
-        document.getElementById("hide").onclick = function hideMarkers() {
-          if (el.recruitment === "true") {
-          setMarkers(null);
-          customOverlay.setMap(null);
-          }
-        }
-        hireMarkers.push(Companymarker); 
-        
-        // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(Companymarker, "click", function () {
+          });   
+          //마커, 오버레이 지도 표시
           customOverlay.setMap(myMap, Companymarker);
-        });   
-        //마커, 오버레이 지도 표시
-        customOverlay.setMap(myMap, Companymarker);
-        markers.push(Companymarker);
-        clusterer.addMarkers(markers);
-      });
-      //↑마커 생성끝
+          markers.push(Companymarker);
+          clusterer.addMarkers(markers);
+        });
+      }
+      else{
 
+        companyStore.companys.forEach((el) => {
+          removeMarker();
+          const Companymarker = new kakao.maps.Marker({
+            map: myMap,
+            position: new kakao.maps.LatLng(el.y, el.x),
+            image: companyMarkerImage,
+            clickable: true,
+          });
+
+          if (el.recruitment === true) {
+            var contents =
+              '<div class="customoverlay">' +
+              '<div class="info">' +
+              '<div class="title">' +
+              el.coNm +
+              "</div>" +
+              '<div class="body">' +
+              '<a href='+
+              el.info[0].wantedInfoUrl+
+              '>'+
+              "채용중" +
+              '</a>'+
+              '</div ">' +
+              '</div ">' +
+              "</div>";
+          } else {
+            var contents =
+              '<div class="customoverlay">' +
+              '<div class="info">' +
+              '<div class="title">' +
+              el.coNm +
+              "</div>" +
+              '</div ">' +
+              "</div>" 
+          }
+
+          const customOverlay = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(el.y, el.x),
+            content: contents,
+          
+          });
+
+          //특정 지도 이상이면 말풍선 안보이는 이벤트
+          kakao.maps.event.addListener(myMap, "zoom_changed", function () {
+            let mapLevel = myMap.getLevel();
+            if (mapLevel >= 4) {
+              customOverlay.setMap(null);
+            } else {
+              customOverlay.setMap(myMap, Companymarker);
+            }
+          });
+
+          hireMarkers.push(Companymarker); 
+          
+          // 마커에 클릭이벤트를 등록합니다
+          kakao.maps.event.addListener(Companymarker, "click", function () {
+            customOverlay.setMap(myMap, Companymarker);
+          });   
+          //마커, 오버레이 지도 표시
+          customOverlay.setMap(myMap, Companymarker);
+          markers.push(Companymarker);
+          clusterer.addMarkers(markers);
+        });
+      }
+        //↑마커 생성끝
+      
+      //마커 지우기
+      function removeMarker() {
+        for ( var i = 0; i < markers.length; i++ ) {
+            markers[i].setMap(null);
+        }   
+        markers = [];
+    }
       myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
-    }, []);
+    },[checked]);
 
+    function change() {
+      setChecked(!checked);
+      console.log(checked);
+    }
 
+    
     return (
       <React.Fragment>
         <div id="map" style={{ width: "100%", height: "60vh" }}>
@@ -192,7 +262,7 @@ export const MapContainer = observer((props) => {
 
           <div
             class="can-toggle can-toggle--size-large"
-            style={{ float: "left", left: "90%", top: "1.5%" }}
+            style={{ float: "right", right : '7%', top : '9%'  }}
           >
             <input id="c" type="checkbox"/>
             <label for="c">
@@ -200,14 +270,13 @@ export const MapContainer = observer((props) => {
                 class="can-toggle__switch"
                 data-checked="채용중"
                 data-unchecked="전체"
+                value={checked}
+                onClick={change}
               ></div>
             </label>
           </div>
         </div>
 
-       <button id="hide"  onClick="hideMarkers()">마커 감추기</button>
-        <button id="show" onClick="showMarkers()">마커 보이기</button> 
-        {/* position:'relative', left:'91%', top:'15%' */}
       </React.Fragment>
     );
 })
