@@ -76,7 +76,7 @@ export const MapContainer = observer((props) => {
           {
             color: "white",
             width: "50px",
-            height: "50px",
+            height: "60px",
             textAlign: "center",
             lineHeight: "50px",
             background:
