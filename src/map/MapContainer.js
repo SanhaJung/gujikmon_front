@@ -56,7 +56,7 @@ export const MapContainer = observer((props) => {
 
       //GPS 내 위치 마커 생성
       function displayMarkerMyHome(locPosition) {
-        var marker = new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
           map: myMap,
           image: markerImageGPS,
           position: locPosition,
@@ -151,7 +151,7 @@ export const MapContainer = observer((props) => {
 
           //특정 지도 이상이면 말풍선 안보이는 이벤트
           kakao.maps.event.addListener(myMap, "zoom_changed", function () {
-            var mapLevel = myMap.getLevel();
+            let mapLevel = myMap.getLevel();
             if (mapLevel >= 3) {
               customOverlay.setMap(null);
             } else {
@@ -163,7 +163,9 @@ export const MapContainer = observer((props) => {
           
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
+            
             customOverlay.setMap(myMap, Companymarker);
+          
           });   
           //마커, 오버레이 지도 표시
           customOverlay.setMap(myMap, Companymarker);

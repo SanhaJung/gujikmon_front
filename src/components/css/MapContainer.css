@@ -11,18 +11,17 @@
     margin-left: 30px;   
     float:left;
 }
+/* 말풍선 바깥 파란 테두리 */
 .customoverlay:nth-of-type(n) {
     border-style: solid;
     border-radius: 50px;
     border-color: cornflowerblue;
-    box-shadow:0px 1px px #888;
+    box-shadow:0px 1px 0px #888;
 }
 .customoverlay .info{
     display:block;
     background:#fff;
     border-radius: 50px;
-
-
 }
 .customoverlay .title {
     display:block;
