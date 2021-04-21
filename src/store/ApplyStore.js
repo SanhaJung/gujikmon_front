@@ -1,6 +1,7 @@
 import {action, makeObservable, observable,set,toJS} from 'mobx'
 import {Company} from './CompanyStore';
 
+
 export class ApplyStore{
     rootStore;
     applyCompanies=[];

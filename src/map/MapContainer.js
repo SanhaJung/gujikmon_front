@@ -2,18 +2,33 @@
 import React, { useEffect , useState} from 'react';
 import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
-
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import {Filter} from '../component/Filter';
 import { observer } from 'mobx-react';
 import { useStores } from '../store/Context';
+import { makeStyles } from '@material-ui/core/styles';
 
 
-var { kakao } = window;
+
+let { kakao } = window;
+
+const useStyles = makeStyles((theme) => ({
+  gpsButton : {
+    zIndex : 3,
+    position : "absolute",
+    top: "35%",
+    left : "97%", 
+    color : "secondary"
+  }
+}));
 
 export const MapContainer = observer((props) => {
-
+   
+    const classes = useStyles();
     const[checked, setChecked] = useState(false);
     // const [myMap, setMyMap] =useState(null);
+
+    // const [getGps, setGetGps] = useState();
 
     const {companyStore,applyStore,mapStore} = useStores();
 
@@ -39,7 +54,7 @@ export const MapContainer = observer((props) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           let lat = position.coords.latitude, // 위도 y
-            lon = position.coords.longitude; // 경도 x
+              lon = position.coords.longitude; // 경도 x
 
           let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 GPS로 얻어온 좌표로 생성
           displayMarkerMyHome(locPosition);
@@ -67,15 +82,15 @@ export const MapContainer = observer((props) => {
         });
 
         // 지도 중심좌표를 접속위치로 변경 GPS마커 생성
-        myMap.setCenter(null); 
-        // marker.setMap(null);
+        myMap.setCenter(); 
+        marker.setMap(myMap);
       }
 
       // 클러스터러 생성
       let clusterer = new kakao.maps.MarkerClusterer({
         map: myMap,
         averageCenter: true,
-        minLevel: 2,
+        minLevel: 3,
         styles: [
           {
             color: "white",
@@ -227,7 +242,7 @@ export const MapContainer = observer((props) => {
           //특정 지도 이상이면 말풍선 안보이는 이벤트
           kakao.maps.event.addListener(myMap, "zoom_changed", function () {
             let mapLevel = myMap.getLevel();
-            if (mapLevel >= 4) {
+            if (mapLevel >= 3) {
               customOverlay.setMap(null);
             } else {
               customOverlay.setMap(myMap, Companymarker);
@@ -239,6 +254,7 @@ export const MapContainer = observer((props) => {
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
             customOverlay.setMap(myMap, Companymarker);
+            
           });   
           //마커, 오버레이 지도 표시
           customOverlay.setMap(myMap, Companymarker);
@@ -265,12 +281,14 @@ export const MapContainer = observer((props) => {
       applyStore.applyToggle =!checked;
     }
 
+   
+
     
     return (
       <React.Fragment>
         <div id="map" style={{ width: "100%", height: "60vh" }}>
         <Filter></Filter>
-
+        <GpsFixedIcon  className={classes.gpsButton}  > </GpsFixedIcon>
           <div
             class="can-toggle can-toggle--size-large"
             style={{ float: "right", right : '7%', top : '9%'  }}
@@ -286,7 +304,9 @@ export const MapContainer = observer((props) => {
               ></div>
             </label>
           </div>
+          
         </div>
+        
 
       </React.Fragment>
     );
