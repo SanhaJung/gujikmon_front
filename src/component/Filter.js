@@ -62,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
    overflow: 'auto',
    borderColor :'#1976D2',
    zIndex:10,
+   float : 'right',
+   marginTop: '6%',
 
   }
 }));
