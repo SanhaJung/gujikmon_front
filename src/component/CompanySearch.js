@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from '../components/SearchCard/Card.js';
 import CardHeader from '../components/SearchCard/CardHeader.js';
 import CardBody from '../components/SearchCard/CardBody.js';
-import Table from '../components/SearchCard/Table.js';
+import {CustomTable} from '../components/SearchCard/Table.js';
 import IconButton from '@material-ui/core/IconButton';
 import { Grid } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -23,7 +23,7 @@ const styles = {
   
   const useStyles = makeStyles(styles);
   
-  export const CompanySearch = observer(() =>{
+export const CompanySearch = observer(() =>{
     const classes = useStyles();
 
     const {searchStore} = useStores()
@@ -35,6 +35,13 @@ const styles = {
       var result =[];
       companies.map((com) =>{
         result.push([com.company.coNm, com.company.coMainProd, com.company.coAddr]);
+      });
+      return result;
+    }
+    const getLat = (companies) =>{
+      var result =[];
+      companies.map((com) =>{
+        result.push([com.company.x, com.company.y]);
       });
       return result;
     }
@@ -52,10 +59,11 @@ const styles = {
               </Grid>           
             </CardHeader>
             <CardBody style={{maxHeight: '47vh', overflow: 'auto'}}>{searchStore.searchResult.length >0 &&
-              <Table
+              <CustomTable
                 tableHeaderColor="primary"
                 tableHead={["기업명",  "업종", "주소"]}
                 tableData={getData(searchStore.searchResult)}
+                tableLat = {getLat(searchStore.searchResult)}
               />}
               {searchStore.searchResult.length===0 && <h2>검색결과 없음</h2>}
             </CardBody>

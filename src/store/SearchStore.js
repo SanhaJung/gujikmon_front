@@ -21,7 +21,6 @@ export class SearchStore{
     const result = await this.searchApi.search(keyword);
     this.searchResult = result;
     this.searchFlag =true;
-    console.log(result)
     return result;
 
   }
