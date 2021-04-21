@@ -65,6 +65,12 @@ const useStyles = makeStyles((theme) => ({
    float : 'right',
    marginTop: '6%',
 
+  },
+  selectedView:{
+    maxHeight:250,
+    margin:theme.spacing(2,0,2),
+   overflow: 'auto',
+   borderColor :'#1976D2',
   }
 }));
 
@@ -190,7 +196,7 @@ export const Filter = observer((props)=> {
         </Grid>
         </Grid>
 
-        <Paper variant="outlined" className={classes.selected}>
+        <Paper variant="outlined" className={classes.selectedView}>
         <Grid container >
           {
             locationSelected.findIndex((x)=> x.name ==="전체" ) === -1  && locationSelected.map((lo)=>{

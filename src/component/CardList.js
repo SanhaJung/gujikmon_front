@@ -35,7 +35,12 @@ const useStyles = makeStyles((theme) => ({
 export const CompanyList = observer(()=>{
   const classes = useStyles();
   const {companyStore} =  useStores();
-  const cards = companyStore.companys;
+  const {applyStore } = useStores();
+  var cards = [];
+
+  if(applyStore.applyToggle) cards = applyStore.applyCompanies;
+  else    cards = companyStore.companys;
+
   const [currentPage, setCurrentPage]= useState(1);
 
   const postsPerPage = 9;

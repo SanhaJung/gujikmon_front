@@ -171,10 +171,8 @@ export const PrimarySearchAppBar = observer(() => {
   async function keyPress(e){
     if(e.keyCode == 13){
       searchStore.searchFlag=false;
-      console.log(e.keyCode);
       const result = await searchStore.Search(searchKeyworkd);
       if (result.length > 0){
-        console.log("야호",result);
         companyStore.setCompany(result);
       }
       e.target.value= '';

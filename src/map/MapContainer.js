@@ -7,21 +7,25 @@ import {Filter} from '../component/Filter';
 import { observer } from 'mobx-react';
 import { useStores } from '../store/Context';
 
-const { kakao } = window;
-//
-//
+
+var { kakao } = window;
+
 export const MapContainer = observer((props) => {
-  
+
     const[checked, setChecked] = useState(false);
     // const [myMap, setMyMap] =useState(null);
 
+    const {companyStore,applyStore,mapStore} = useStores();
 
-    const {companyStore,applyStore} = useStores();
     companyStore.init();
     applyStore.setApplyCompanies(companyStore.companys);
 
     // console.log(applyStore.applyCompanies);
     useEffect(() => {
+      if (kakao === undefined){
+        kakao= window;
+      }
+      console.log(kakao);
 
       const container = document.getElementById("map");
       const options = {
@@ -247,11 +251,13 @@ export const MapContainer = observer((props) => {
         markers = [];
     }
       myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
+      mapStore.map= myMap;
+
     },[checked]);
 
     function change() {
       setChecked(!checked);
-      console.log(checked);
+      applyStore.applyToggle =!checked;
     }
 
     

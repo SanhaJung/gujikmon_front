@@ -4,10 +4,11 @@ import {Company} from './CompanyStore';
 export class ApplyStore{
     rootStore;
     applyCompanies=[];
-
+    applyToggle= false;
     constructor(root){
         makeObservable(this,{
-            applyCompanies :observable
+            applyCompanies :observable,
+            applyToggle : observable,
         })
         this.rootStore = root;
     }

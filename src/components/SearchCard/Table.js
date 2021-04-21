@@ -8,12 +8,23 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 
 import styles from "../css/tableStyle";
+import { observer } from "mobx-react";
+import { useStores } from "../../store/Context";
 
 const useStyles = makeStyles(styles);
 
-export default function CustomTable(props) {
+const {kakao} = window;
+
+export const CustomTable= observer((props)=> {
   const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor } = props;
+  const { tableHead, tableData, tableHeaderColor ,tableLat} = props;
+  const {mapStore} = useStores();
+
+  const handleClick = (key) =>{
+    let moveLatLon = new kakao.maps.LatLng(tableLat[key][1], tableLat[key][0]);
+    mapStore.map.setCenter(moveLatLon);
+  }
+
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
@@ -22,7 +33,7 @@ export default function CustomTable(props) {
             <TableRow className={classes.tableHeadRow}>
               {tableHead.map((prop, key) => {
                 return (
-                  <TableCell
+                  <TableCell 
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     key={key}
                   >
@@ -36,10 +47,10 @@ export default function CustomTable(props) {
         <TableBody>
           {tableData.map((prop, key) => {
             return (
-              <TableRow key={key} className={classes.tableBodyRow}>
+              <TableRow key={key} className={classes.tableBodyRow} onClick={() => handleClick(key)}>
                 {prop.map((prop, key) => {
                   return (
-                    <TableCell className={classes.tableCell} key={key}>
+                    <TableCell className={classes.tableCell} key={key} >
                       {prop}
                     </TableCell>
                   );
@@ -51,7 +62,7 @@ export default function CustomTable(props) {
       </Table>
     </div>
   );
-}
+})
 
 // CustomTable.defaultProps = {
 //   tableHeaderColor: "gray"

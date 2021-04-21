@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const {kakao} = window;
 
 export const DetailCard = observer(({card}) =>{
 //export default function DetailCard({card}) {
@@ -54,7 +55,7 @@ export const DetailCard = observer(({card}) =>{
   const preventDefault = (event) => event.preventDefault();
   const [loginOpen, setLoginOpen] = React.useState(false);
   const {userStore} =  useStores();
-  const {companyStore} = useStores();
+  const {mapStore} = useStores();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -66,7 +67,13 @@ export const DetailCard = observer(({card}) =>{
         setLoginOpen(false);
       else 
         setLoginOpen(true);
-    }
+      }
+
+  const handleClick= (y,x)=>{
+    console.log(y,x);
+    let moveLatLon = new kakao.maps.LatLng(y, x);
+    mapStore.map.setCenter(moveLatLon);
+  }
 
     async function handleFavoritesChange(card){
       const result = await userStore.updateFavorites(card.id);
@@ -92,6 +99,7 @@ export const DetailCard = observer(({card}) =>{
           }
           title={card.coNm}
           subheader={card.coAddr}
+          onClick={() => handleClick(card.y, card.x)}
     />
     )
     const CardheaderLogined = (
@@ -108,6 +116,7 @@ export const DetailCard = observer(({card}) =>{
                         }
                         title={card.coNm}
                         subheader={card.coAddr}
+                        onClick={() => handleClick(card.y, card.x)}
                       />
         </>
     )
