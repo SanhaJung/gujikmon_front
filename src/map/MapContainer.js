@@ -30,7 +30,7 @@ export const MapContainer = observer((props) => {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
-        level: 3,
+        level: 6,
       };
       const myMap = new kakao.maps.Map(container, options);
       
@@ -67,8 +67,8 @@ export const MapContainer = observer((props) => {
         });
 
         // 지도 중심좌표를 접속위치로 변경 GPS마커 생성
-        myMap.setCenter(locPosition);
-        marker.setMap(myMap);
+        myMap.setCenter(null); 
+        // marker.setMap(null);
       }
 
       // 클러스터러 생성
@@ -112,6 +112,7 @@ export const MapContainer = observer((props) => {
       if (checked){
         applyStore.applyCompanies.forEach((el) => {
           removeMarker();
+          
           const Companymarker = new kakao.maps.Marker({
             map: myMap,
             position: new kakao.maps.LatLng(el.y, el.x),
