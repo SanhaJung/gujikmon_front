@@ -11,6 +11,7 @@ export const addressMap = [
         options : 
             [
                 {name:"종로구",code:11110},
+                {name:"강남구",code:11680},
                 {name:"중구",code:11140},
                 {name:"용산구",code:11170},
                 {name:"성동구",code:11200},
@@ -32,7 +33,6 @@ export const addressMap = [
                 {name:"동작구",code:11590},
                 {name:"관악구",code:11620},
                 {name:"서초구",code:11650},
-                {name:"강남구",code:11680},
                 {name:"송파구",code:11710},
                 {name:"강동구",code:11740},                                 
         ]   
