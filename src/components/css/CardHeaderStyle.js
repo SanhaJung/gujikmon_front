@@ -16,10 +16,10 @@ import {
       background: "transparent",
       zIndex: "3 !important",
       "&$cardHeaderPlain,&$cardHeaderIcon,&$cardHeaderStats,&$warningCardHeader,&$successCardHeader,&$dangerCardHeader,&$infoCardHeader,&$primaryCardHeader,&$roseCardHeader": {
-        margin: "0 15px",
+        margin: "0 3px",
         padding: "0",
         position: "relative",
-        color: whiteColor
+        color: whiteColor,
       },
       "&:first-child": {
         borderRadius: "calc(.25rem - 1px) calc(.25rem - 1px) 0 0"

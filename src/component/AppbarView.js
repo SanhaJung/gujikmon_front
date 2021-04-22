@@ -17,6 +17,12 @@ import CSRFToken from '../api/csrftoken';
 import { useStores } from '../store/Context';
 import { observer } from 'mobx-react';
 
+import {MapStore} from '../store/MapStore';
+
+const { kakao } = window;
+
+
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -176,12 +182,17 @@ export const PrimarySearchAppBar = observer(() => {
       console.log(result);
       if (result.length > 0){
         companyStore.setCompany(result);
-        mapStore.mapCenter_y = result[0].company.y;
-        mapStore.mapCenter_x = result[0].company.x;
+        
+        //mapStore.mapCenter_y = result[0].company.y;
+        //mapStore.mapCenter_x = result[0].company.x;
+
+        let moveLatLon = new kakao.maps.LatLng(result[0].company.y, result[0].company.x  );
+        console.log(result);
+        mapStore.map.setCenter(moveLatLon);
       }
       e.target.value= '';
       setSearchKeword('');
-
+    
     }
  }
   const menuId = 'primary-search-account-menu';

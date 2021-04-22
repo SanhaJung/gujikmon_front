@@ -1,3 +1,4 @@
+import zIndex from "@material-ui/core/styles/zIndex";
 import {
     warningColor,
     primaryColor,
@@ -37,19 +38,21 @@ import {
       maxWidth: "100%",
       backgroundColor: "transparent",
       borderSpacing: "0",
-      borderCollapse: "collapse"
+      borderCollapse: "collapse",
+      // zIndex:"10"
     },
     tableHeadCell: {
       color: "inherit",
       ...defaultFont,
       "&, &$tableCell": {
-        fontSize: "1em"
+        fontSize: "1.25em"
       }
     },
+    //기업명
     tableCell: {
       ...defaultFont,
       lineHeight: "1.42857143",
-      padding: "12px 8px",
+      padding: "12px 8px", // 12 8 
       verticalAlign: "middle",
       fontSize: "0.8125rem"
     },

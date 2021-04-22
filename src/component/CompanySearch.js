@@ -16,7 +16,7 @@ const styles = {
       color: "#FFFFFF",
       marginTop: "20px",
       minHeight: "auto",
- 
+      
     }
   };
 
@@ -34,7 +34,7 @@ export const CompanySearch = observer(() =>{
     const getData = (companies) =>{
       var result =[];
       companies.map((com) =>{
-        result.push([com.company.coNm, com.company.coMainProd, com.company.coAddr]);
+        result.push([com.company.coNm, com.company.superIndTpNm, com.company.regionNm]);
       });
       return result;
     }
@@ -61,7 +61,8 @@ export const CompanySearch = observer(() =>{
             <CardBody style={{maxHeight: '47vh', overflow: 'auto'}}>{searchStore.searchResult.length >0 &&
               <CustomTable
                 tableHeaderColor="primary"
-                tableHead={["기업명",  "업종", "주소"]}
+                
+                tableHead={["기업명",  "업종", "지역"]}
                 tableData={getData(searchStore.searchResult)}
                 tableLat = {getLat(searchStore.searchResult)}
               />}

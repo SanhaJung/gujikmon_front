@@ -7,7 +7,8 @@ const styles = {
   grid: {
     margin: "3 0 -15px !important",
     width: "100em",
-    lineHeight: "2"
+    lineHeight: "2",
+    
   }
 };
 

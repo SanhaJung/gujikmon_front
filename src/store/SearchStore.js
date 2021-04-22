@@ -4,7 +4,6 @@ import SearchApi from '../api/SearchApi'
 export class SearchStore{
   searchApi = new SearchApi();
   rootStore;
-
   searchFlag = false; //검색이 됬으면 true ,아니면 fasle
   searchResult = [];
 

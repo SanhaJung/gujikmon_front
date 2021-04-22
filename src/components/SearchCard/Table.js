@@ -20,6 +20,7 @@ export const CustomTable= observer((props)=> {
   const { tableHead, tableData, tableHeaderColor ,tableLat} = props;
   const {mapStore} = useStores();
 
+  
   const handleClick = (key) =>{
     let moveLatLon = new kakao.maps.LatLng(tableLat[key][1], tableLat[key][0]);
     mapStore.map.setCenter(moveLatLon);
