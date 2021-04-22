@@ -16,7 +16,6 @@ import { FavoriteCardList } from './FavoriteCardList';
 import { useStores } from '../store/Context';
 import { observer } from 'mobx-react';
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -36,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     //backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  rightAlign: {
+    marginLeft: "auto",
+  }
 }));
 
 function TabPanel(props) {
@@ -68,7 +70,9 @@ export  const  Main = observer(() => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const {userStore} = useStores();
-
+  const {filterStore} = useStores();
+  const {mapStore} = useStores();
+  const {companyStore} = useStores();
   function handleChange(e, newValue) {
     setValue(newValue);
   }  
@@ -84,6 +88,7 @@ export  const  Main = observer(() => {
         onChange={handleChange} aria-label="full width tabs example">
           <Tab label="기업정보" {...a11yProps(0)} />
           {userStore.login_type !== 0 && <Tab label="관심기업" {...a11yProps(1)} />}
+          {companyStore.companys.length > 1000 && <Tab label ="마커는 최대 1000개만 표시됩니다."    className={classes.rightAlign} disabled ></Tab>}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -93,14 +98,16 @@ export  const  Main = observer(() => {
         <FavoriteCardList></FavoriteCardList>
       </TabPanel>
       </main>
+
       {/* Footer */}
       <footer className={classes.footer}>
 
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          구직몬
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          검색결과 수에 제한이 있습니다. <br></br>
+          필터를 사용하여 범위를 좁혀주세요.
         </Typography>
         <Copyright />
       </footer>

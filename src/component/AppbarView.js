@@ -116,6 +116,7 @@ export const PrimarySearchAppBar = observer(() => {
   const {userStore}= useStores();
   const {searchStore } =useStores();
   const {companyStore} = useStores();
+  const {mapStore} =useStores();
   const handleLoginOpen = () => {
     setLoginOpen(true);
   };
@@ -172,11 +173,15 @@ export const PrimarySearchAppBar = observer(() => {
     if(e.keyCode == 13){
       searchStore.searchFlag=false;
       const result = await searchStore.Search(searchKeyworkd);
+      console.log(result);
       if (result.length > 0){
         companyStore.setCompany(result);
+        mapStore.mapCenter_y = result[0].company.y;
+        mapStore.mapCenter_x = result[0].company.x;
       }
       e.target.value= '';
       setSearchKeword('');
+
     }
  }
   const menuId = 'primary-search-account-menu';

@@ -1,6 +1,5 @@
 //Front
 import React, { useEffect , useState} from 'react';
-import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
 
 import {Filter} from '../component/Filter';
@@ -14,27 +13,24 @@ export const MapContainer = observer((props) => {
 
     const[checked, setChecked] = useState(false);
     // const [myMap, setMyMap] =useState(null);
+    const {companyStore,applyStore,mapStore,userStore} = useStores();
 
-    const {companyStore,applyStore,mapStore} = useStores();
-
-    companyStore.init();
     applyStore.setApplyCompanies(companyStore.companys);
-
-    // console.log(applyStore.applyCompanies);
+    companyStore.init();
     useEffect(() => {
       if (kakao === undefined){
         kakao= window;
       }
-      console.log(kakao);
+      applyStore.applyToggle = checked;
 
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
+        //center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
+        center: new kakao.maps.LatLng(mapStore.mapCenter_y, mapStore.mapCenter_x), //좌표 (y,x)
         level: 3,
       };
       const myMap = new kakao.maps.Map(container, options);
-      
-
+    
       //GPS 권한얻기
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -67,7 +63,7 @@ export const MapContainer = observer((props) => {
         });
 
         // 지도 중심좌표를 접속위치로 변경 GPS마커 생성
-        myMap.setCenter(locPosition);
+        //myMap.setCenter(locPosition);
         marker.setMap(myMap);
       }
 
@@ -110,8 +106,8 @@ export const MapContainer = observer((props) => {
       let hireMarkers = [];
       
       if (checked){
-        applyStore.applyCompanies.forEach((el) => {
-          removeMarker();
+        for(let i=0; i<applyStore.applyCompanies.length; i++){
+          var el = applyStore.applyCompanies[i];
           const Companymarker = new kakao.maps.Marker({
             map: myMap,
             position: new kakao.maps.LatLng(el.y, el.x),
@@ -168,17 +164,20 @@ export const MapContainer = observer((props) => {
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
             customOverlay.setMap(myMap, Companymarker);
+            applyStore.setIndex(i);
           });   
           //마커, 오버레이 지도 표시
           customOverlay.setMap(myMap, Companymarker);
           markers.push(Companymarker);
           clusterer.addMarkers(markers);
-        });
+
+          if(i>1000)break;
+        }
       }
       else{
+        for(let i=0; i<companyStore.companys.length;i++){
+          var el = companyStore.companys[i];
 
-        companyStore.companys.forEach((el) => {
-          removeMarker();
           const Companymarker = new kakao.maps.Marker({
             map: myMap,
             position: new kakao.maps.LatLng(el.y, el.x),
@@ -234,15 +233,17 @@ export const MapContainer = observer((props) => {
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
             customOverlay.setMap(myMap, Companymarker);
-          });   
+            companyStore.setIndex(i);
+          }); 
+             
           //마커, 오버레이 지도 표시
           customOverlay.setMap(myMap, Companymarker);
           markers.push(Companymarker);
           clusterer.addMarkers(markers);
-        });
+        };
       }
         //↑마커 생성끝
-      
+
       //마커 지우기
       function removeMarker() {
         for ( var i = 0; i < markers.length; i++ ) {
@@ -252,12 +253,12 @@ export const MapContainer = observer((props) => {
     }
       myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
       mapStore.map= myMap;
-
     },[checked]);
 
     function change() {
       setChecked(!checked);
       applyStore.applyToggle =!checked;
+      
     }
 
     

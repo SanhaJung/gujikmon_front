@@ -60,13 +60,19 @@ export class CompanyStore{
   rootStore;
   companys = [];
   searchApi = new SearchApi();
+  selected = false;
   flag = false;
-
+  currentPage= 1;
+  index = 1;
   constructor(root){
     makeObservable(this,  {
       companys : observable,
+      selected : observable,
+      currentPage : observable,
+      index : observable,
       createCompany : action,
       setCompany:action,
+      setIndex :action,
     })
 
     this.rootStore = root;
@@ -174,6 +180,13 @@ export class CompanyStore{
         newCom.push(com);
     })
     this.companys= newCom;
+  };
+
+  setIndex(index){ 
+    this.index= index;
+
+   if(index !== 0 ) this.currentPage = Math.ceil(index/9);
+   else this.currentPage =1 ;
   };
 
 }

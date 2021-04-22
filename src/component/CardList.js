@@ -41,33 +41,40 @@ export const CompanyList = observer(()=>{
   if(applyStore.applyToggle) cards = applyStore.applyCompanies;
   else    cards = companyStore.companys;
 
-  const [currentPage, setCurrentPage]= useState(1);
+  var currentPage =1;
+  if(applyStore.applyToggle) currentPage = applyStore.currentPage;
+  else currentPage = companyStore.currentPage;
 
   const postsPerPage = 9;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPost = cards.slice(indexOfFirstPost,indexOfLastPost);
 
-  
   const onChange= (e,activePage)=>{
-    console.log(activePage);
-    setCurrentPage(activePage);
-    console.log({currentPage});
+    if(applyStore.applyToggle)
+      applyStore.currentPage =activePage;
+    else
+      companyStore.currentPage=activePage;
   };
+
   return (
-    <Container className={classes.cardGrid} >        
+    <Container className={classes.cardGrid} >   
         <Grid container spacing={2}>
-        {currentPost.map((card) => (
+        { currentPost.map((card) => (
             <Grid item key={card._id} xs={12} sm={4}>
-            {/* <Box p={0.5}> */}
             <DetailCard className={classes.card} card={card} spacing={2} />
-            {/* </Box> */}
             </Grid>
         ))}
-        </Grid>
+        </Grid> 
         <div>
-            <Pagination count={Math.ceil(cards.length/postsPerPage)}
-            onChange={onChange} shape="rounded"  className={classes.paging}/>
+        {applyStore.applyToggle&&
+           <Pagination count={Math.ceil(cards.length/postsPerPage)}
+            onChange={onChange} shape="rounded" page={applyStore.currentPage} className={classes.paging}/>
+        }
+        {!applyStore.applyToggle&&
+           <Pagination count={Math.ceil(cards.length/postsPerPage)}
+            onChange={onChange} shape="rounded" page={companyStore.currentPage} className={classes.paging}/>
+        }
         </div>
   </Container> 
   );

@@ -70,7 +70,6 @@ export const DetailCard = observer(({card}) =>{
       }
 
   const handleClick= (y,x)=>{
-    console.log(y,x);
     let moveLatLon = new kakao.maps.LatLng(y, x);
     mapStore.map.setCenter(moveLatLon);
   }

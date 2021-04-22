@@ -5,10 +5,15 @@ export class ApplyStore{
     rootStore;
     applyCompanies=[];
     applyToggle= false;
+    currentPage = 1;
+    index = 1;
     constructor(root){
         makeObservable(this,{
             applyCompanies :observable,
             applyToggle : observable,
+            currentPage : observable,
+            index:  observable,
+            setIndex :action,
         })
         this.rootStore = root;
     }
@@ -51,8 +56,11 @@ export class ApplyStore{
     
 
     }
-    
 
+    setIndex(index){ 
+        this.index= index;
+        this.currentPage = Math.ceil(index/9);
+    }
 
 
 }
