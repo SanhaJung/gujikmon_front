@@ -1,0 +1,149 @@
+
+
+.customoverlay * {
+    padding : 0;
+    margin : 0;
+    
+}
+.customoverlay{
+    position: relative;
+    bottom: 85px;
+    margin-left: 38px;   
+    float:left;
+}
+/* .customoverlay:nth-of-type(n) {
+    border-style: solid;
+    border-width: 2px 2px 2px;
+    border-radius: 50px;
+    border-color: cornflowerblue;
+    box-shadow:0px 1px 0px #6495ed;
+} */
+.customoverlay .info{
+    padding: 0px 5px;
+    display:block;
+    background:#fff;
+    border-style: solid;
+    border-width: 4px 4px 4px;
+    border-radius: 50px;
+    border-color: cornflowerblue;
+}
+.customoverlay .title {
+    display:block;
+    text-align:center;
+    background:#fff;
+    margin-right:1px;
+    margin-left: 1px;
+    margin-top: 2px;
+    padding: 2px 8px;
+    font-size:15px;
+    font-weight:bold;
+    border-radius: 50px;
+}
+
+.customoverlay .body {
+    display:block;
+    text-align:center;
+    font-size:16px;
+    color: blue;
+    font-weight:bold;
+    
+}
+/* .customoverlay:after {
+    content:'';
+    position:absolute;
+    margin-left:-23px;
+    left:50%;
+    bottom: -10px;
+    width:20px;
+    height:12px;
+    background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+} */
+.customoverlay:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 13px 12px 0;
+    border-color: #6495ed transparent;
+    display: block;
+    width: 24px;
+    height: 12px;
+    z-index: -5;
+    bottom: -13px;
+    left: 50%;
+    margin-left:-25px;
+}
+
+
+
+.customoverlay2 * {
+    padding : 0;
+    margin : 0;
+    
+}
+.customoverlay2{
+    position: relative;
+    bottom: 95px;
+    margin-left: 35px;   
+    float:left;
+}
+/* .customoverlay:nth-of-type(n) {
+    border-style: solid;
+    border-width: 2px 2px 2px;
+    border-radius: 50px;
+    border-color: cornflowerblue;
+    box-shadow:0px 1px 0px #6495ed;
+} */
+.customoverlay2 .info{
+    padding: 0px 10px;
+    display:block;
+    background:#fff;
+    border-style: solid;
+    border-width: 4px 4px 4px;
+    border-radius: 50px;
+    border-color: cornflowerblue;
+}
+.customoverlay2 .title {
+    display:block;
+    text-align:center;
+    background:#fff;
+    margin-right:1px;
+    margin-left: 1px;
+    margin-top: 2px;
+    padding: 2px 8px;
+    font-size:15px;
+    font-weight:bold;
+    border-radius: 50px;
+}
+
+.customoverlay2 .body {
+    display:block;
+    text-align:center;
+    font-size:16px;
+    color: blue;
+    font-weight:bold;
+    
+}
+/* .customoverlay:after {
+    content:'';
+    position:absolute;
+    margin-left:-23px;
+    left:50%;
+    bottom: -10px;
+    width:20px;
+    height:12px;
+    background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+} */
+.customoverlay2:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 13px 12px 0;
+    border-color: #6495ed transparent;
+    display: block;
+    width: 24px;
+    height: 12px;
+    z-index: -5;
+    bottom: -13px;
+    left: 50%;
+    margin-left:-25px;
+}

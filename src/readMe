@@ -1,0 +1,19 @@
+
+
+yarn add @material-ui/core
+yarn add @material-ui/icons
+yarn add material-ui-popup-state
+yarn add mobx mobx-react
+yarn add @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
+yarn add axios
+yarn add react-kakao-login
+yarn add http-proxy-middleware
+yarn add react-google-login
+Rix열정도체
+이사만루
+@font-face {
+    font-family: 'paybooc-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
