@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     //backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  tap : {
+    backgroundColor: "#4D6AFF",
+  }
 }));
 
 function TabPanel(props) {
@@ -80,7 +83,7 @@ export  const  Main = observer(() => {
       <main>
        <KakaoMap></KakaoMap>
        <AppBar position="static">
-        <Tabs value={value} 
+        <Tabs value={value} className={classes.tab}
         onChange={handleChange} aria-label="full width tabs example">
           <Tab label="기업정보" {...a11yProps(0)} />
           {userStore.login_type !== 0 && <Tab label="관심기업" {...a11yProps(1)} />}

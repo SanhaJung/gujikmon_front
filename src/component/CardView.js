@@ -68,7 +68,8 @@ export const DetailCard = observer(({card}) =>{
       else 
         setLoginOpen(true);
       }
-
+  
+  
   const handleClick= (y,x)=>{
     console.log(y,x);
     let moveLatLon = new kakao.maps.LatLng(y, x);

@@ -183,13 +183,15 @@ export const PrimarySearchAppBar = observer(() => {
       const result = await searchStore.Search(searchKeyworkd);
       if (result.length > 0){
         companyStore.setCompany(result);
+        let moveLatLon = new kakao.maps.LatLng(result[0].company.y, result[0].company.x  );
+        console.log(result);
+        mapStore.map.setCenter(moveLatLon);
       }
       e.target.value= '';
       setSearchKeword('');
       
-      let moveLatLon = new kakao.maps.LatLng(result[0].company.y, result[0].company.x  );
-      console.log(result);
-      mapStore.map.setCenter(moveLatLon);
+      
+      
 
 
     }

@@ -1,6 +1,5 @@
 //Front
 import React, { useEffect , useState} from 'react';
-import {MarkerData} from './MarkerData';
 import '../components/css/MapContainer.css';
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import {Filter} from '../component/Filter';
@@ -28,7 +27,7 @@ export const MapContainer = observer((props) => {
     const[checked, setChecked] = useState(false);
     // const [myMap, setMyMap] =useState(null);
 
-    // const [getGps, setGetGps] = useState();
+    const [getGps, setGetGps] = useState([]);
 
     const {companyStore,applyStore,mapStore} = useStores();
 
@@ -45,7 +44,7 @@ export const MapContainer = observer((props) => {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5012860931305, 127.039604663862), //좌표 (y,x)
-        level: 6,
+        level: 3,
       };
       const myMap = new kakao.maps.Map(container, options);
       
@@ -82,8 +81,7 @@ export const MapContainer = observer((props) => {
         });
 
         // 지도 중심좌표를 접속위치로 변경 GPS마커 생성
-        myMap.setCenter(); 
-        marker.setMap(myMap);
+        // marker.setMap(myMap);
       }
 
       // 클러스터러 생성
@@ -122,11 +120,11 @@ export const MapContainer = observer((props) => {
 
       //기업 마커 생성
       let markers = [];
-      let hireMarkers = [];
       
+      //채용중
       if (checked){
         applyStore.applyCompanies.forEach((el) => {
-          removeMarker();
+          // removeMarker();
           
           const Companymarker = new kakao.maps.Marker({
             map: myMap,
@@ -153,14 +151,7 @@ export const MapContainer = observer((props) => {
               '</div ">' +
               "</div>";
           } else {
-            var contents =
-              '<div class="customoverlay">' +
-              '<div class="info">' +
-              '<div class="title">' +
-              el.coNm +
-              "</div>" +
-              '</div ">' +
-              "</div>" 
+           
           }
 
           const customOverlay = new kakao.maps.CustomOverlay({
@@ -179,7 +170,7 @@ export const MapContainer = observer((props) => {
             }
           });
 
-          hireMarkers.push(Companymarker); 
+          
           
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
@@ -196,9 +187,9 @@ export const MapContainer = observer((props) => {
         });
       }
       else{
-
+        //전체 기업
         companyStore.companys.forEach((el) => {
-          removeMarker();
+          // removeMarker();
           const Companymarker = new kakao.maps.Marker({
             map: myMap,
             position: new kakao.maps.LatLng(el.y, el.x),
@@ -249,7 +240,7 @@ export const MapContainer = observer((props) => {
             }
           });
 
-          hireMarkers.push(Companymarker); 
+          
           
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(Companymarker, "click", function () {
@@ -264,22 +255,30 @@ export const MapContainer = observer((props) => {
       }
         //↑마커 생성끝
       
-      //마커 지우기
-      function removeMarker() {
-        for ( var i = 0; i < markers.length; i++ ) {
-            markers[i].setMap(null);
-        }   
-        markers = [];
-    }
+    //   //마커 지우기
+    //   function removeMarker() {
+    //     for ( var i = 0; i < markers.length; i++ ) {
+    //         markers[i].setMap(null);
+    //     }   
+    //     markers = [];
+    // }
       myMap.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT, true);
       mapStore.map= myMap;
 
+      
     },[checked]);
 
     function change() {
       setChecked(!checked);
       applyStore.applyToggle =!checked;
     }
+
+    // function gpsIconClick(){
+    //   mapStore.map.setCenter(locPosition);
+
+    // }
+
+    
 
    
 
@@ -288,7 +287,7 @@ export const MapContainer = observer((props) => {
       <React.Fragment>
         <div id="map" style={{ width: "100%", height: "60vh" }}>
         <Filter></Filter>
-        <GpsFixedIcon  className={classes.gpsButton}  > </GpsFixedIcon>
+        {/* <GpsFixedIcon  className={classes.gpsButton} onClick={gpsIconClick} > </GpsFixedIcon> */}
           <div
             class="can-toggle can-toggle--size-large"
             style={{ float: "right", right : '7%', top : '9%'  }}

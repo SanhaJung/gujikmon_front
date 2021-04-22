@@ -161,7 +161,7 @@ export class CompanyStore{
         data.company.regionCd,
         data.company.regionNm,
         data.company.superIndTpCd, 
-        data.company.superIndTpNm,
+        data.company.superIndTpNm, //업종명
         data.company.coMainProd,
         data.company.coHomePage,
         data.company.alwaysWorkerCnt,
