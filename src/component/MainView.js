@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   rightAlign: {
     marginLeft: "auto",
   },
-  tap : {
+  tab : {
     backgroundColor: "#4D6AFF",
   }
 }));
@@ -109,8 +109,7 @@ export  const  Main = observer(() => {
           구직몬
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          검색결과 수에 제한이 있습니다. <br></br>
-          필터를 사용하여 범위를 좁혀주세요.
+          집에서 멀리가기 싫은 구직자들을 위한 구직몬
         </Typography>
         <Copyright />
       </footer>
