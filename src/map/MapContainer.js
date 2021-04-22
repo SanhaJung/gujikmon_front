@@ -240,6 +240,9 @@ export const MapContainer = observer((props) => {
           customOverlay.setMap(myMap, Companymarker);
           markers.push(Companymarker);
           clusterer.addMarkers(markers);
+
+          if(i>1000)break;
+
         };
       }
         //↑마커 생성끝
