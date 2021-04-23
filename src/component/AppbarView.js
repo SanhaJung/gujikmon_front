@@ -16,6 +16,7 @@ import {LogoutWithKakao , LogoutWithGoogle} from './SocialLogin';
 import CSRFToken from '../api/csrftoken';
 import { useStores } from '../store/Context';
 import { observer } from 'mobx-react';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import {MapStore} from '../store/MapStore';
 
@@ -113,9 +114,13 @@ const useStyles = makeStyles((theme) => ({
 export const PrimarySearchAppBar = observer(() => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorE2, setAnchorE2] = React.useState(null);
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [searchKeyworkd, setSearchKeword] = React.useState('');
-  const isMenuOpen = Boolean(anchorEl);
+  const isKakaoMenuOpen = Boolean(anchorEl);
+  const isGoogleMenuOpen = Boolean(anchorE2);
+
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -131,19 +136,38 @@ export const PrimarySearchAppBar = observer(() => {
     setLoginOpen(false);
   };
 
-  const handleProfileMenuOpen = (event) => {
+  const handleKakaoMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleGoogleMenuOpen = (event) => {
+    setAnchorE2(event.currentTarget);
+  };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleKakaoMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
 
+  const handleGoogleMenuClose = () => {
+    setAnchorE2(null);
+    handleMobileMenuClose();
+  };
+
+  const handleDeleteUser = async() => {
+    const result = await userStore.deleteUser();
+    console.log(result);
+    if(result){
+      alert("회원정보가 삭제되었습니다.");
+      window.location.reload();
+    }
+    else{
+      handleMobileMenuClose();
+    }
+  };
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -162,10 +186,30 @@ export const PrimarySearchAppBar = observer(() => {
       )
     if(loginType === 1){//카카오 로그인된 상태
         return(
-        <Button color="inherit" onClick={ LogoutWithKakao}>로그아웃</Button>
+          <IconButton
+          edge="end"
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+          onClick={handleKakaoMenuOpen}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
         )}
     else if(loginType ===2){ //구글 로그인된 상태
-      return (<LogoutWithGoogle></LogoutWithGoogle>)
+      return (
+        <IconButton
+        edge="end"
+        aria-label="account of current user"
+        aria-controls={menuId}
+        aria-haspopup="true"
+        onClick={handleGoogleMenuOpen}
+        color="inherit"
+      >
+        <AccountCircle />
+      </IconButton>
+      )
     }
   }
 
@@ -196,21 +240,36 @@ export const PrimarySearchAppBar = observer(() => {
     }
  }
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
+  const renderKakaoMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      open={isKakaoMenuOpen}
+      onClose={handleKakaoMenuClose}
+    >      
+      <MenuItem onClick={LogoutWithKakao}>로그아웃</MenuItem>
+      <CSRFToken></CSRFToken>
+      <MenuItem onClick={handleDeleteUser}>회원탈퇴</MenuItem>
     </Menu>
   );
-
+  const renderGoogleMenu = (
+    <Menu
+      anchorEl={anchorE2}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isGoogleMenuOpen}
+      onClose={handleGoogleMenuClose}
+    >
+      <LogoutWithGoogle></LogoutWithGoogle>
+      <CSRFToken></CSRFToken>
+      <MenuItem  onClick={handleDeleteUser}>회원탈퇴</MenuItem>
+    </Menu>
+  );
   const mobileMenuId = 'primary-search-account-menu-mobile';
   
 
@@ -248,26 +307,13 @@ export const PrimarySearchAppBar = observer(() => {
             />
           </div>
           <div className={classes.grow} />
-     
-          <div className={classes.sectionDesktop}>
            {Login()}
-         
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+                  
         </Toolbar>
       </AppBar>
       {/*renderMobileMenu*/}
-      {renderMenu}
+      {renderKakaoMenu}
+      {renderGoogleMenu}
     </div>
   );
 });

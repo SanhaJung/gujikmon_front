@@ -6,6 +6,7 @@ import GoogleButtonImg from '../img/google_login_button.png';
 import Button from '@material-ui/core/Button';
 import { observer } from 'mobx-react';
 import { useStores } from '../store/Context';
+import { MenuItem } from '@material-ui/core';
 
 export function LoginWithKakao(callback) {
   
@@ -80,7 +81,9 @@ export const LogoutWithGoogle = observer(() =>{
   return(
         <GoogleLogout
         clientId={clientId}
-        
+        render={renderProps => (
+            <MenuItem onClick={renderProps.onClick} disabled={renderProps.disabled}>로그아웃</MenuItem>
+          )}
         buttonText="Logout"
         onLogoutSuccess={LogoutSuccess}
       >

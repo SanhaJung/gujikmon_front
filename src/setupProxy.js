@@ -16,6 +16,20 @@ module.exports = function(app) {
     })
   );
   app.use(
+    '/user/withdrawal',
+    createProxyMiddleware({
+      target: 'http://3.36.237.46:8000',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/user/testurl/',
+    createProxyMiddleware({
+      target: 'http://3.36.237.46:8000',
+      changeOrigin: true,
+    })
+  );
+  app.use(
     '/api/company/search',
     createProxyMiddleware({
       target: 'http://3.36.237.46',
