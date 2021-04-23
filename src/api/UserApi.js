@@ -4,8 +4,12 @@ class UserApi{
     URL = '/api/user/'; //http://IP:8000/api/todos/
     //URL = 'http://3.36.237.46/api/company/search/';
 
-    deleteUser(token){
-        return axios.get(this.URL+'delete/',token).then((response)=>response.data);
+    deleteUser(pk){
+        const body ={
+            user_pk:pk,
+        }
+        console.log(body);
+        return axios.post('user/withdrawal/', body).then((response)=>response.data);
         //axios.get(this.URL+keyword).then((response)=>
         //    {return response.data;}
         //);

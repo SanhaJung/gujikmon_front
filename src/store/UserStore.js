@@ -127,5 +127,13 @@ export class UserStore{
 
       return true;
   }
-  
+  async deleteUser(){
+    const result = await this.userApi.deleteUser(this.user_pk);
+    console.log(result);
+
+    if(result.result === "success")
+      return true;
+    else
+      return false;
+  }
 }
